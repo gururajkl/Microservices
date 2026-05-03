@@ -1,3 +1,4 @@
+using Ecommerce.Core;
 using Ecommerce.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add infrastructure services to the dependency injection container.
 builder.Services.AddInfrastructure();
+
+// Add core services to the dependency injection container.
+builder.Services.AddCore();
 
 var app = builder.Build();
 
