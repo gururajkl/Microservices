@@ -1,5 +1,8 @@
 ﻿namespace Ecommerce.Core.Entities;
 
+/// <summary>
+/// Model class representing an application user details in data store.
+/// </summary>
 public class ApplicationUser
 {
     public Guid UserId { get; set; }
