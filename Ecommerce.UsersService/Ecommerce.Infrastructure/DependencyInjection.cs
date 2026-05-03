@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Ecommerce.Core.RepositoryContracts;
+using Ecommerce.Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce.Infrastructure;
 
@@ -9,6 +11,7 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddSingleton<IUsersRepository, UsersRepository>();
         return services;
     }
 }
