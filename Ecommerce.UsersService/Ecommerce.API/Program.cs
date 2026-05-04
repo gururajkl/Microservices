@@ -1,6 +1,7 @@
 using Ecommerce.API.Middlewares;
 using Ecommerce.Core;
 using Ecommerce.Infrastructure;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,11 @@ builder.Services.AddInfrastructure();
 builder.Services.AddCore();
 
 // Add controllers to the application pipeline.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    // Add support for serializing and deserializing enum values as strings in JSON.
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 // Build the web application.
 var app = builder.Build();
