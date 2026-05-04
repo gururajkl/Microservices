@@ -1,11 +1,12 @@
-﻿using Ecommerce.Core.DTO;
+﻿using AutoMapper;
+using Ecommerce.Core.DTO;
 using Ecommerce.Core.Entities;
 using Ecommerce.Core.RepositoryContracts;
 using Ecommerce.Core.ServiceContracts;
 
 namespace Ecommerce.Core.Services;
 
-internal class UsersService(IUsersRepository repository) : IUsersService
+internal class UsersService(IUsersRepository repository, IMapper mapper) : IUsersService
 {
     public async Task<AuthenticationResponse?> LoginAsync(LoginRequest request)
     {
@@ -13,7 +14,7 @@ internal class UsersService(IUsersRepository repository) : IUsersService
 
         if (user is null) return null;
 
-        return new(user.UserId, user.Email, user.PersonName, user.Gender, "dummyToken", true);
+        return mapper.Map<AuthenticationResponse>(user) with { Success = true, Token = "dummyToken" };
     }
 
     public async Task<AuthenticationResponse?> RegisterAsync(RegisterRequest request)
@@ -30,6 +31,6 @@ internal class UsersService(IUsersRepository repository) : IUsersService
 
         if (newUser is null) return null;
 
-        return new(newUser.UserId, newUser.Email, newUser.PersonName, newUser.Gender, "dummyToken", true);
+        return mapper.Map<AuthenticationResponse>(newUser) with { Success = true, Token = "dummyToken" };
     }
 }
