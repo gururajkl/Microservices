@@ -1,5 +1,6 @@
 using Ecommerce.API.Middlewares;
 using Ecommerce.Core;
+using Ecommerce.Core.Mappers;
 using Ecommerce.Infrastructure;
 using System.Text.Json.Serialization;
 
@@ -19,6 +20,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     // Add support for serializing and deserializing enum values as strings in JSON.
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+
+// Add auto mapper services to the dependency injection container, specifying the mapping profile assembly.
+builder.Services.AddAutoMapper(cfg => { }, typeof(ApplicationUserMappingProfile).Assembly);
 
 // Build the web application.
 var app = builder.Build();
