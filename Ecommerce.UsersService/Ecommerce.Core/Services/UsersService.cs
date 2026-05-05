@@ -19,13 +19,7 @@ internal class UsersService(IUsersRepository repository, IMapper mapper) : IUser
 
     public async Task<AuthenticationResponse?> RegisterAsync(RegisterRequest request)
     {
-        ApplicationUser userToAdd = new()
-        {
-            Email = request.Email,
-            Password = request.Password,
-            PersonName = request.PersonName,
-            Gender = request.Gender?.ToString()
-        };
+        ApplicationUser userToAdd = mapper.Map<ApplicationUser>(request);
 
         ApplicationUser? newUser = await repository.AddUserAsync(userToAdd);
 
