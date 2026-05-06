@@ -1,10 +1,11 @@
 ﻿using Ecommerce.Core.DTO;
 using Ecommerce.Core.Entities;
 using Ecommerce.Core.RepositoryContracts;
+using Ecommerce.Infrastructure.DbContext;
 
 namespace Ecommerce.Infrastructure.Repositories;
 
-internal class UsersRepository : IUsersRepository
+internal class UsersRepository(DapperDbContext dbContext) : IUsersRepository
 {
     public async Task<ApplicationUser?> AddUserAsync(ApplicationUser user)
     {
