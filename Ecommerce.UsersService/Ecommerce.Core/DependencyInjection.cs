@@ -1,5 +1,7 @@
 ﻿using Ecommerce.Core.ServiceContracts;
 using Ecommerce.Core.Services;
+using Ecommerce.Core.Validators;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce.Core;
@@ -13,6 +15,9 @@ public static class DependencyInjection
     {
         // Register the UsersService with the dependency injection container.
         services.AddTransient<IUsersService, UsersService>();
+
+        // Register all validators from the assembly containing LoginRequestValidator.
+        services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
 
         return services;
     }
