@@ -1,12 +1,13 @@
 ﻿using Ecommerce.Core.DTO;
 using Ecommerce.Core.ServiceContracts;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(ILogger<AuthController> logger, IUsersService service) : ControllerBase
+public class AuthController(ILogger<AuthController> logger, IUsersService service, IValidator<LoginRequest> loginValidator) : ControllerBase
 {
     [HttpPost("[action]")]
     public async Task<IActionResult> Register(RegisterRequest request)
@@ -32,6 +33,13 @@ public class AuthController(ILogger<AuthController> logger, IUsersService servic
     [HttpPost("[action]")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
+        var validationResult = await loginValidator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult);
+        }
+
         if (request is null)
         {
             logger.LogWarning("Login request is null.");
