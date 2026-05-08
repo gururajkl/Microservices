@@ -22,7 +22,7 @@ public class AuthController(ILogger<AuthController> logger, IUsersService servic
         if (response is null || !response.Success)
         {
             logger.LogWarning("Registration failed for email: {Email}.", request.Email);
-            return BadRequest("Registration failed.");
+            return BadRequest("Registration failed, please try again.");
         }
 
         logger.LogInformation("User registered successfully.");
@@ -43,7 +43,7 @@ public class AuthController(ILogger<AuthController> logger, IUsersService servic
         if (response is null || !response.Success)
         {
             logger.LogWarning("Login failed for email: {Email}.", request.Email);
-            return Unauthorized("Login failed.");
+            return Unauthorized("Login failed, please check your credentials.");
         }
 
         logger.LogInformation("User logged in successfully.");
