@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Ecommerce.Core.DTO;
 using Ecommerce.Core.Entities;
 using Ecommerce.Core.RepositoryContracts;
 using Ecommerce.Infrastructure.DbContext;
@@ -10,7 +9,6 @@ internal class UsersRepository(DapperDbContext dbContext) : IUsersRepository
 {
     public async Task<ApplicationUser?> AddUserAsync(ApplicationUser user)
     {
-        // Mock data.
         user.UserID = Guid.NewGuid();
 
         string query = "INSERT INTO public.\"Users\" (\"UserID\", \"Email\", \"PersonName\", \"Gender\", \"Password\") VALUES(@UserID, @Email, @PersonName, @Gender, @Password)";
@@ -26,14 +24,11 @@ internal class UsersRepository(DapperDbContext dbContext) : IUsersRepository
 
     public async Task<ApplicationUser?> GetUserByEmailAndPasswordAsync(string? email, string? password)
     {
-        // Mock data.
-        return new()
-        {
-            UserID = Guid.NewGuid(),
-            Email = email,
-            Password = password,
-            PersonName = "John Doe",
-            Gender = GenderOptions.Male.ToString()
-        };
+        string query = "SELECT * FROM public.\"Users\" WHERE \"Email\" = @Email and \"Password\" = @Password";
+        var parameters = new { Email = email, Password = password };
+
+        ApplicationUser? user = await dbContext.DbConnection.QueryFirstOrDefaultAsync<ApplicationUser>(query, parameters);
+
+        return user;
     }
 }
