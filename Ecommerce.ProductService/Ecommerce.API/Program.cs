@@ -1,8 +1,3 @@
-using Ecommerce.API.APIEndpoints;
-using Ecommerce.API.Handlers;
-using Ecommerce.BusinessLogicLayer;
-using Ecommerce.DataAccessLayer;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add exception handling middleware.

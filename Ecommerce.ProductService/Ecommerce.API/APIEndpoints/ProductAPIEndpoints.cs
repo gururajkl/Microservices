@@ -1,6 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.Entities;
-
-namespace Ecommerce.API.APIEndpoints;
+﻿namespace Ecommerce.API.APIEndpoints;
 
 public static class ProductAPIEndpoints
 {
