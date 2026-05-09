@@ -9,7 +9,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 // Add data access layer services.
-builder.Services.AddDataAccessLayer();
+builder.Services.AddDataAccessLayer(builder.Configuration);
 
 // Add business logic layer services.
 builder.Services.AddBusinessLogicLayer();
