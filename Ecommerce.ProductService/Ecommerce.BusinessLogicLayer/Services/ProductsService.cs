@@ -33,9 +33,10 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
         return mapper.Map<ProductResponse>(productAdded);
     }
 
-    public Task<bool> DeleteProductAsync(Guid productID)
+    public async Task<bool> DeleteProductAsync(Guid productID)
     {
-        throw new NotImplementedException();
+        bool result = await repository.DeleteProductAsync(productID);
+        return result;
     }
 
     public async Task<ProductResponse?> GetProductByConditionAsync(Expression<Func<Product, bool>> expression)
