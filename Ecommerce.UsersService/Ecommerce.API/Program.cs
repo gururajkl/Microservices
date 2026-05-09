@@ -6,8 +6,6 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the application pipeline.
-
 // Add infrastructure services to the dependency injection container.
 builder.Services.AddInfrastructure();
 
@@ -24,6 +22,21 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 // Add auto mapper services to the dependency injection container, specifying the mapping profile assembly.
 builder.Services.AddAutoMapper(cfg => { }, typeof(ApplicationUserMappingProfile).Assembly);
 
+// Add API explorer services.
+builder.Services.AddEndpointsApiExplorer();
+
+// Add Swagger generation services to the dependency injection container to create swagger specification.
+builder.Services.AddSwaggerGen();
+
+// Add CORS policy to allow requests from the specified origin with any method and header.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 // Build the web application.
 var app = builder.Build();
 
@@ -32,6 +45,14 @@ app.UseExceptionHandlingMiddleware();
 
 // Add routing.
 app.UseRouting();
+
+// Adds endpoint that can serve the swagger.json file.
+app.UseSwagger();
+
+// Adds the swagger ui which can be used to test the API endpoints and view the API documentation.
+app.UseSwaggerUI();
+
+app.UseCors();
 
 // Add authentication and authorization middleware.
 app.UseAuthentication();
