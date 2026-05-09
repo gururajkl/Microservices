@@ -38,14 +38,22 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
         throw new NotImplementedException();
     }
 
-    public Task<ProductResponse?> GetProductByConditionAsync(Expression<Func<Product, bool>> expression)
+    public async Task<ProductResponse?> GetProductByConditionAsync(Expression<Func<Product, bool>> expression)
     {
-        throw new NotImplementedException();
+        Product? product = await repository.GetProductByConditionAsync(expression);
+
+        if (product is null) return null;
+
+        return mapper.Map<ProductResponse>(product);
     }
 
-    public Task<List<ProductResponse?>> GetProductsAsync()
+    public async Task<List<ProductResponse?>> GetProductsAsync()
     {
-        throw new NotImplementedException();
+        IEnumerable<Product?> products = await repository.GetProductsAsync();
+
+        IEnumerable<ProductResponse> productResponses = products.Select(product => mapper.Map<ProductResponse>(product));
+
+        return [.. productResponses];
     }
 
     public Task<List<ProductResponse?>> GetProductsByConditionAsync(Expression<Func<Product, bool>> expression)
