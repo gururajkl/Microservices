@@ -9,8 +9,8 @@ namespace Ecommerce.DataAccessLayer.RepositoryContracts;
 public interface IProductsRepository
 {
     Task<IEnumerable<Product?>> GetProductsAsync();
-    Task<IEnumerable<Product?>> GetProductsByConditionAsync(Expression<Predicate<Product>> expression);
-    Task<Product?> GetProductByConditionAsync(Expression<Predicate<Product>> expression);
+    Task<IEnumerable<Product?>> GetProductsByConditionAsync(Expression<Func<Product, bool>> expression);
+    Task<Product?> GetProductByConditionAsync(Expression<Func<Product, bool>> expression);
     Task<Product?> AddProductAsync(Product product);
     Task<Product?> UpdateProductAsync(Product product);
     Task<bool> DeleteProductAsync(Guid productID);
