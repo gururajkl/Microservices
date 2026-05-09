@@ -16,4 +16,8 @@ builder.Services.AddBusinessLogicLayer();
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
+app.UseRouting();
+
 app.Run();
