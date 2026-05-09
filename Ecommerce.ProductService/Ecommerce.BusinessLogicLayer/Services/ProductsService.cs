@@ -35,6 +35,10 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
 
     public async Task<bool> DeleteProductAsync(Guid productID)
     {
+        Product? productInDb = await repository.GetProductByConditionAsync(p => p.ProductID == productID);
+
+        if (productInDb is null) return false;
+
         bool result = await repository.DeleteProductAsync(productID);
         return result;
     }
