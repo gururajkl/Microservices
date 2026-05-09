@@ -7,11 +7,19 @@ namespace Ecommerce.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(ILogger<AuthController> logger, IUsersService service, IValidator<LoginRequest> loginValidator) : ControllerBase
+public class AuthController(ILogger<AuthController> logger, IUsersService service, IValidator<LoginRequest> loginValidator,
+    IValidator<RegisterRequest> registerValidator) : ControllerBase
 {
     [HttpPost("[action]")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
+        var validationResult = await registerValidator.ValidateAsync(request);
+
+        if (!validationResult.IsValid)
+        {
+            return BadRequest(validationResult);
+        }
+
         if (request is null)
         {
             logger.LogWarning("Register request is null.");
