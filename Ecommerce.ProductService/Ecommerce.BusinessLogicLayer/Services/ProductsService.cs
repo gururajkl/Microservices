@@ -56,7 +56,7 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
     {
         IEnumerable<Product?> products = await repository.GetProductsAsync();
 
-        IEnumerable<ProductResponse> productResponses = products.Select(product => mapper.Map<ProductResponse>(product));
+        IEnumerable<ProductResponse> productResponses = mapper.Map<IEnumerable<ProductResponse>>(products);
 
         return [.. productResponses];
     }
@@ -65,7 +65,7 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
     {
         IEnumerable<Product?> products = await repository.GetProductsByConditionAsync(expression);
 
-        IEnumerable<ProductResponse> productResponses = products.Select(product => mapper.Map<ProductResponse>(product));
+        IEnumerable<ProductResponse> productResponses = mapper.Map<IEnumerable<ProductResponse>>(products);
 
         return [.. productResponses];
     }
@@ -81,6 +81,9 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
             string errorMessages = string.Join(",", validationResult.Errors.Select(e => e.ErrorMessage));
             throw new Exception(errorMessages);
         }
+
+        Product? existingProduct = await repository.GetProductByConditionAsync(p => p.ProductID == productUpdateRequest.ProductID)
+            ?? throw new ArgumentException("Invalid product ID");
 
         Product productToUpdate = mapper.Map<Product>(productUpdateRequest);
 
