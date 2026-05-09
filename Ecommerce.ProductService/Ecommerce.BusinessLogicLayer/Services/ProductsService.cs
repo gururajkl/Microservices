@@ -1,15 +1,36 @@
-﻿using Ecommerce.BusinessLogicLayer.DTO;
+﻿using AutoMapper;
+using Ecommerce.BusinessLogicLayer.DTO;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.DataAccessLayer.Entities;
+using Ecommerce.DataAccessLayer.RepositoryContracts;
+using FluentValidation;
+using FluentValidation.Results;
 using System.Linq.Expressions;
 
 namespace Ecommerce.BusinessLogicLayer.Services;
 
-internal class ProductsService : IProductsService
+internal class ProductsService(IProductsRepository repository, IMapper mapper,
+    IValidator<ProductAddRequest> addRequestValidator, IValidator<ProductUpdateRequest> updateRequestValidator) : IProductsService
 {
-    public Task<ProductResponse?> AddProductAsync(ProductAddRequest product)
+    public async Task<ProductResponse?> AddProductAsync(ProductAddRequest productAddRequest)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(productAddRequest);
+
+        ValidationResult validationResult = await addRequestValidator.ValidateAsync(productAddRequest);
+
+        if (!validationResult.IsValid)
+        {
+            string errorMessages = string.Join(",", validationResult.Errors.Select(e => e.ErrorMessage));
+            throw new Exception(errorMessages);
+        }
+
+        Product productToAdd = mapper.Map<Product>(productAddRequest);
+
+        Product? productAdded = await repository.AddProductAsync(productToAdd);
+
+        if (productAdded is null) return null;
+
+        return mapper.Map<ProductResponse>(productAdded);
     }
 
     public Task<bool> DeleteProductAsync(Guid productID)
@@ -32,7 +53,7 @@ internal class ProductsService : IProductsService
         throw new NotImplementedException();
     }
 
-    public Task<ProductResponse?> UpdateProductAsync(ProductUpdateRequest product)
+    public Task<ProductResponse?> UpdateProductAsync(ProductUpdateRequest productUpdateRequest)
     {
         throw new NotImplementedException();
     }
