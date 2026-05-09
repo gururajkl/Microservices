@@ -1,3 +1,4 @@
+using Ecommerce.API.APIEndpoints;
 using Ecommerce.API.Handlers;
 using Ecommerce.BusinessLogicLayer;
 using Ecommerce.DataAccessLayer;
@@ -19,5 +20,7 @@ var app = builder.Build();
 app.UseExceptionHandler();
 
 app.UseRouting();
+
+app.MapProductAPIEndpoints();
 
 app.Run();
