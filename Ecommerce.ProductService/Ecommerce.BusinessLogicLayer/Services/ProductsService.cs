@@ -56,9 +56,13 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
         return [.. productResponses];
     }
 
-    public Task<List<ProductResponse?>> GetProductsByConditionAsync(Expression<Func<Product, bool>> expression)
+    public async Task<List<ProductResponse?>> GetProductsByConditionAsync(Expression<Func<Product, bool>> expression)
     {
-        throw new NotImplementedException();
+        IEnumerable<Product?> products = await repository.GetProductsByConditionAsync(expression);
+
+        IEnumerable<ProductResponse> productResponses = products.Select(product => mapper.Map<ProductResponse>(product));
+
+        return [.. productResponses];
     }
 
     public async Task<ProductResponse?> UpdateProductAsync(ProductUpdateRequest productUpdateRequest)
