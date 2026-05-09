@@ -53,8 +53,24 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
         throw new NotImplementedException();
     }
 
-    public Task<ProductResponse?> UpdateProductAsync(ProductUpdateRequest productUpdateRequest)
+    public async Task<ProductResponse?> UpdateProductAsync(ProductUpdateRequest productUpdateRequest)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(productUpdateRequest);
+
+        ValidationResult validationResult = await updateRequestValidator.ValidateAsync(productUpdateRequest);
+
+        if (!validationResult.IsValid)
+        {
+            string errorMessages = string.Join(",", validationResult.Errors.Select(e => e.ErrorMessage));
+            throw new Exception(errorMessages);
+        }
+
+        Product productToUpdate = mapper.Map<Product>(productUpdateRequest);
+
+        Product? updatedProduct = await repository.UpdateProductAsync(productToUpdate);
+
+        if (updatedProduct is null) return null;
+
+        return mapper.Map<ProductResponse>(updatedProduct);
     }
 }
