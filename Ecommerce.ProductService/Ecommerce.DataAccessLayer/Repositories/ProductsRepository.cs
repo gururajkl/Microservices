@@ -1,10 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.DatabaseContext;
-using Ecommerce.DataAccessLayer.Entities;
-using Ecommerce.DataAccessLayer.RepositoryContracts;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-
-namespace Ecommerce.DataAccessLayer.Repositories;
+﻿namespace Ecommerce.DataAccessLayer.Repositories;
 
 public class ProductsRepository(ApplicationDbContext dbContext) : IProductsRepository
 {

@@ -1,7 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.Entities;
-using Microsoft.EntityFrameworkCore;
-
-namespace Ecommerce.DataAccessLayer.DatabaseContext;
+﻿namespace Ecommerce.DataAccessLayer.DatabaseContext;
 
 /// <summary>
 /// Database context for the application.

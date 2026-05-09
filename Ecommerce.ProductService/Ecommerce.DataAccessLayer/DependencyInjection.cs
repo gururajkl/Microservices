@@ -1,11 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.DatabaseContext;
-using Ecommerce.DataAccessLayer.Repositories;
-using Ecommerce.DataAccessLayer.RepositoryContracts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Ecommerce.DataAccessLayer;
+﻿namespace Ecommerce.DataAccessLayer;
 
 public static class DependencyInjection
 {

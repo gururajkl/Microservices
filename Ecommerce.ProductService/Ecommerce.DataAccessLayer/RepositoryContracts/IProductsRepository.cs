@@ -1,7 +1,4 @@
-﻿using Ecommerce.DataAccessLayer.Entities;
-using System.Linq.Expressions;
-
-namespace Ecommerce.DataAccessLayer.RepositoryContracts;
+﻿namespace Ecommerce.DataAccessLayer.RepositoryContracts;
 
 /// <summary>
 /// Defines the contract for <see cref="Product"/> data access operations.
