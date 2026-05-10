@@ -21,6 +21,15 @@ builder.Services.ConfigureHttpJsonOptions(option =>
     option.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
+// Add CORS policy to allow requests from the specified origin with any method and header.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
@@ -35,5 +44,7 @@ app.UseSwaggerUI();
 
 // Map product api endpoints to the application.
 app.MapProductAPIEndpoints();
+
+app.UseCors();
 
 app.Run();
