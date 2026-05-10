@@ -24,10 +24,13 @@ public static class ProductAPIEndpoints
         // GET, /api/products/search/searchString.
         app.MapGet("/api/products/search/{searchString}", async (IProductsService productsService, string searchString) =>
         {
-            List<ProductResponse?> productsByName = await productsService.GetProductsByConditionAsync(p => p.ProductName.Contains(searchString,
-                StringComparison.OrdinalIgnoreCase));
-            List<ProductResponse?> productsByCategory = await productsService.GetProductsByConditionAsync(p => p.Category.Contains(searchString,
-                StringComparison.OrdinalIgnoreCase));
+            string lowerValuedSearchString = searchString.ToLower();
+
+            List<ProductResponse?> productsByName = await productsService.GetProductsByConditionAsync(p => p.ProductName != null
+            && p.ProductName.ToLower().Contains(lowerValuedSearchString));
+
+            List<ProductResponse?> productsByCategory = await productsService.GetProductsByConditionAsync(p => p.Category != null
+            && p.Category.ToLower().Contains(lowerValuedSearchString));
 
             var products = productsByName.Union(productsByCategory);
             return Results.Ok(products);
