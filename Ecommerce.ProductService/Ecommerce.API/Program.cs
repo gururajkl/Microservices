@@ -25,6 +25,7 @@ app.UseSwagger();
 // Adds the swagger ui which can be used to test the API endpoints and view the API documentation.
 app.UseSwaggerUI();
 
+// Map product api endpoints to the application.
 app.MapProductAPIEndpoints();
 
 app.Run();
