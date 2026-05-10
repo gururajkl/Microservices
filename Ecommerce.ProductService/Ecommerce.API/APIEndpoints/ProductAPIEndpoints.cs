@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.API.APIEndpoints;
+﻿using FluentValidation.Results;
+
+namespace Ecommerce.API.APIEndpoints;
 
 public static class ProductAPIEndpoints
 {
@@ -19,6 +21,42 @@ public static class ProductAPIEndpoints
         {
             ProductResponse? product = await productsService.GetProductByConditionAsync(p => p.ProductID == productID);
             return Results.Ok(product);
+        });
+
+        // GET, /api/products/search/searchString.
+        app.MapGet("/api/products/search/{searchString}", async (IProductsService productsService, string searchString) =>
+        {
+            List<ProductResponse?> productsByName = await productsService.GetProductsByConditionAsync(p => p.ProductName.Contains(searchString,
+                StringComparison.OrdinalIgnoreCase));
+            List<ProductResponse?> productsByCategory = await productsService.GetProductsByConditionAsync(p => p.Category.Contains(searchString,
+                StringComparison.OrdinalIgnoreCase));
+
+            var products = productsByName.Union(productsByCategory);
+            return Results.Ok(products);
+        });
+
+        // POST, /api/products.
+        app.MapPost("/api/products",
+            async (IProductsService productsService, ProductAddRequest request, IValidator<ProductAddRequest> validator) =>
+        {
+            ValidationResult result = await validator.ValidateAsync(request);
+
+            if (!result.IsValid)
+            {
+                Dictionary<string, string[]> errors = result.Errors.GroupBy(e => e.PropertyName)
+                .ToDictionary(d => d.Key, d => d.Select(s => s.ErrorMessage).ToArray());
+
+                return Results.ValidationProblem(errors);
+            }
+
+            ProductResponse? addedProduct = await productsService.AddProductAsync(request);
+
+            if (addedProduct is not null)
+            {
+                return Results.Created($"/api/products/search/product-id/{addedProduct.ProductID}", addedProduct);
+            }
+
+            return Results.Problem("Error adding the product");
         });
 
         return app;

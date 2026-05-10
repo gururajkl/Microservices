@@ -5,3 +5,4 @@ global using Ecommerce.BusinessLogicLayer.DTO;
 global using Ecommerce.BusinessLogicLayer.ServiceContracts;
 global using Ecommerce.DataAccessLayer;
 global using Ecommerce.DataAccessLayer.Entities;
+global using FluentValidation;
