@@ -79,6 +79,15 @@ public static class ProductAPIEndpoints
             return Results.Problem("Error updating the product");
         });
 
+        // DELETE, /api/product/productID.
+        app.MapDelete("/api/product/{productID:guid}", async (IProductsService productsService, Guid productID) =>
+        {
+            bool result = await productsService.DeleteProductAsync(productID);
+
+            if (result) return Results.Ok(true);
+            return Results.Problem("Error deleting the product");
+        });
+
         return app;
     }
 }
