@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add exception handling middleware.
@@ -12,6 +14,12 @@ builder.Services.AddBusinessLogicLayer();
 
 // Add Swagger generation services to the dependency injection container to create swagger specification.
 builder.Services.AddSwaggerGen();
+
+// Configure JSON string enum converter options.
+builder.Services.ConfigureHttpJsonOptions(option =>
+{
+    option.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 
