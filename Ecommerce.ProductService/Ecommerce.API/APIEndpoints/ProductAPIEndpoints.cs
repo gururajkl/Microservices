@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace Ecommerce.API.APIEndpoints;
+﻿namespace Ecommerce.API.APIEndpoints;
 
 public static class ProductAPIEndpoints
 {
@@ -36,8 +34,7 @@ public static class ProductAPIEndpoints
         });
 
         // POST, /api/products.
-        app.MapPost("/api/products",
-            async (IProductsService productsService, ProductAddRequest request, IValidator<ProductAddRequest> validator) =>
+        app.MapPost("/api/products", async (IProductsService productsService, ProductAddRequest request, IValidator<ProductAddRequest> validator) =>
         {
             ValidationResult result = await validator.ValidateAsync(request);
 
@@ -57,6 +54,29 @@ public static class ProductAPIEndpoints
             }
 
             return Results.Problem("Error adding the product");
+        });
+
+        // PUT, /api/products.
+        app.MapPut("/api/products", async (IProductsService productsService, ProductUpdateRequest request, IValidator<ProductUpdateRequest> validator) =>
+        {
+            ValidationResult result = await validator.ValidateAsync(request);
+
+            if (!result.IsValid)
+            {
+                Dictionary<string, string[]> errors = result.Errors.GroupBy(g => g.PropertyName)
+                .ToDictionary(d => d.Key, d => d.Select(s => s.ErrorMessage).ToArray());
+
+                return Results.ValidationProblem(errors);
+            }
+
+            ProductResponse? updatedProduct = await productsService.UpdateProductAsync(request);
+
+            if (updatedProduct is not null)
+            {
+                return Results.Ok(updatedProduct);
+            }
+
+            return Results.Problem("Error updating the product");
         });
 
         return app;
