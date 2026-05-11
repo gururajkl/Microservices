@@ -1,0 +1,1 @@
+1. docker version: to find the docker version installed.
