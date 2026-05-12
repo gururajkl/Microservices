@@ -1,0 +1,59 @@
+name: Build Microservices + Angular
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build-dotnet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore Product Service
+        run: dotnet restore Ecommerce.ProductService/Ecommerce.ProductService.slnx
+
+      - name: Build Product Service
+        run: dotnet build Ecommerce.ProductService/Ecommerce.ProductService.slnx --configuration Release --no-restore
+
+      - name: Restore Users Service
+        run: dotnet restore Ecommerce.UsersService/Ecommerce.UsersService.slnx
+
+      - name: Build Users Service
+        run: dotnet build Ecommerce.UsersService/Ecommerce.UsersService.slnx --configuration Release --no-restore
+
+  build-angular:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: AngularApplication/package-lock.json
+
+      - name: Install dependencies
+        working-directory: AngularApplication
+        run: npm ci
+
+      - name: Build Angular app
+        working-directory: AngularApplication
+        run: npm run build -- --configuration production
