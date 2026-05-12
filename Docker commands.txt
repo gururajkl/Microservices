@@ -18,7 +18,7 @@
 
 10. docker pull <username>/<image_name>:<tag>: downloads the docker image from docker hub into the local system.
 
-11. docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice mysql: run and download mysql image locally.
+11. docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=	 mysql: run and download mysql image locally.
 
 12. docker network create <network-name>: create docker network. 
 
@@ -29,3 +29,7 @@
 * to run docker image with network: docker run -p 8080:8080 --network=223ccaf2cb8e gururaj7741/ecommerce-product-microservice:v1.0
 
 * to run mysql docker image with network: docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice --network=223ccaf2cb8e mysql
+
+* to run docker image with environment variable: docker run -p 8080:8080 --network=223ccaf2cb8e -e MYSQL_HOSTNAME=mysql-host-product-microservice -e MYSQL_PASSWORD=admin gururaj7741/ecommerce-product-microservice:v1.0
+
+* to run mysql docker image with default mysql db file with sql commands: docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice --network=223ccaf2cb8e -v ./mysql-init:/docker-entrypoint-initdb.d mysql --lower_case_table_names=1
