@@ -12,4 +12,6 @@
 
 7. docker images: shows the list of docker images locally.
 
-8. docker tag <local-image-name-with-tag> <docker-hub-registry-name-with-tag>: creates a new alias for the existing image that includes the Docker Hub username and tag, which tells Docker where to push the image when you run docker push.
+8. docker tag <source_image>:<source_tag> <username>/<destination_image>:<destination_tag>: creates a new alias for the existing image that includes the Docker Hub username and tag, which tells Docker where to push the image when you run docker push.
+
+9. docker push <username>/<destination_image>:<destination_tag>: pushes the given docker image into the given docker hub repo.
