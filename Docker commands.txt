@@ -11,3 +11,5 @@
 6. docker run --name <container_name> -d -e <evn_variable>=<value> <image>:<tag>: creates and starts a new container from the given image.
 
 7. docker images: shows the list of docker images locally.
+
+8. docker tag <local-image-name-with-tag> <docker-hub-registry-name-with-tag>: creates a new alias for the existing image that includes the Docker Hub username and tag, which tells Docker where to push the image when you run docker push.
