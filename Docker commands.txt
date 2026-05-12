@@ -17,3 +17,5 @@
 9. docker push <username>/<destination_image>:<destination_tag>: pushes the given docker image into the given docker hub repo.
 
 10. docker pull <username>/<image_name>:<tag>: downloads the docker image from docker hub into the local system.
+
+11. docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice mysql: run and download mysql image locally. 
