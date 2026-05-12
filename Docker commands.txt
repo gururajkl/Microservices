@@ -1,4 +1,9 @@
 1. docker version: to find the docker version installed.
+
 2. COPY <source_path> <destination_path>: helps to copy the files or directories from the host machine into the image.
+
 3. RUN <command>: executes the specified command during the build process.
+
 4. ENTRYPOINT ["executable", "arg1", "arg2", ...]: specifies the primary command to be run when a container is started.
+
+5. docker build -t <image>:<tag> -f <Dockerfile_path> <context>: builds or creates a docker image from a Dockerfile located in the given path.
