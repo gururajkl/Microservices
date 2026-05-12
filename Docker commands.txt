@@ -9,3 +9,5 @@
 5. docker build -t <image>:<tag> -f <Dockerfile_path> <context>: builds or creates a docker image from a Dockerfile located in the given path.
 
 6. docker run --name <container_name> -d -e <evn_variable>=<value> <image>:<tag>: creates and starts a new container from the given image.
+
+7. docker images: shows the list of docker images locally.
