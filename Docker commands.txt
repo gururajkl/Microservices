@@ -25,3 +25,7 @@
 13. docker network ls: to see list of docker networks.
 
 14. docker network inspect <network-name or id>: inspect the given docker network.
+
+* to run docker image with network: docker run -p 8080:8080 --network=223ccaf2cb8e gururaj7741/ecommerce-product-microservice:v1.0
+
+* to run mysql docker image with network: docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice --network=223ccaf2cb8e mysql
