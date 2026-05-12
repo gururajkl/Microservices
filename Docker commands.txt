@@ -7,3 +7,5 @@
 4. ENTRYPOINT ["executable", "arg1", "arg2", ...]: specifies the primary command to be run when a container is started.
 
 5. docker build -t <image>:<tag> -f <Dockerfile_path> <context>: builds or creates a docker image from a Dockerfile located in the given path.
+
+6. docker run --name <container_name> -d -e <evn_variable>=<value> <image>:<tag>: creates and starts a new container from the given image.
