@@ -34,4 +34,4 @@
 
 * to run mysql docker image with default mysql db file with sql commands: docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice --network=223ccaf2cb8e -v ./mysql-init:/docker-entrypoint-initdb.d mysql --lower_case_table_names=1
 
-* docker-compose config: not to run the docker file but to check the syntax and errors in the file.
+15. docker-compose config: not to run the docker file but to check the syntax and errors in the file.
