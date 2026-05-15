@@ -35,3 +35,11 @@
 * to run mysql docker image with default mysql db file with sql commands: docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql-host-product-microservice --network=223ccaf2cb8e -v ./mysql-init:/docker-entrypoint-initdb.d mysql --lower_case_table_names=1
 
 15. docker-compose config: not to run the docker file but to check the syntax and errors in the file.
+
+16. docker-compose up: creates, starts all services (containers) and networks defined in .yml file.
+
+17. docker-compose down: stops and removes all containers and networks defined in yaml file.
+
+18. docker-compose start: Starts the existing container and networks in .yml file won't recreate it.
+
+19. docker-compose stop: stops the containers and networks but doesn't remove them.
