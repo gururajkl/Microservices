@@ -43,3 +43,9 @@
 18. docker-compose start: Starts the existing container and networks in .yml file won't recreate it.
 
 19. docker-compose stop: stops the containers and networks but doesn't remove them.
+
+20. docker-compose restart -f filenameWithPath.yaml: Stops and restarts all the container, won't remove them.
+
+21: docker-compose pause: Pauses the containers.
+
+22: docker-compose unpause: resumes the containers.
