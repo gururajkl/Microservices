@@ -49,3 +49,5 @@
 21: docker-compose pause: Pauses the containers.
 
 22: docker-compose unpause: resumes the containers.
+
+* to run these commands in detached mode in terminal just use -d
