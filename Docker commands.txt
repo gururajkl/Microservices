@@ -53,3 +53,5 @@
 * to run these commands in detached mode in terminal just use -d
 
 23: docker compose ps: show created container that are running.
+
+24: docker exec -it my-sql-container-name MySQL -u root -p databasename: run MySQL docker container in interactive mode with username and password.
