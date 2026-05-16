@@ -14,6 +14,7 @@ builder.Services.AddBusinessLogicLayer();
 builder.Services.AddDataAccessLayer();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 // Add CORS policy to allow requests from the specified origin with any method and header.
 builder.Services.AddCors(options =>
@@ -38,5 +39,7 @@ if (app.Environment.IsDevelopment())
     // Adds the swagger ui which can be used to test the API endpoints and view the API documentation.
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.Run();
