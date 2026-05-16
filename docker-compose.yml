@@ -6,13 +6,13 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./MySqlQuery:/docker-entrypoint-initdb.d
+      - ./DatabaseQuery/products-init:/docker-entrypoint-initdb.d
     networks:
       - ecommerce-network
     hostname: mysql-host-product-microservice
     command: --lower_case_table_names=1
   
-  product-microservice:
+  products-microservice:
     image: gururaj7741/ecommerce-product-microservice:v1.0
     environment:
       MYSQL_HOSTNAME: mysql-host-product-microservice
@@ -30,6 +30,18 @@ services:
       POSTGRES_DB: eCommerceUsers
     ports:
       - "5432:5432"
+    volumes:
+      - ./DatabaseQuery/users-init:/docker-entrypoint-initdb.d
+    networks:
+      - ecommerce-network
+
+  users-microservice:
+    image: gururaj7741/ecommerce-users-microservice:v1.0
+    environment:
+      POSTGRES_HOSTNAME: postgres-container
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "9090:9090"
     networks:
       - ecommerce-network
 
