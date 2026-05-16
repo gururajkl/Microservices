@@ -18,7 +18,7 @@
 
 10. docker pull <username>/<image_name>:<tag>: downloads the docker image from docker hub into the local system.
 
-11. docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=	 mysql: run and download mysql image locally.
+11. docker run -it -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 --hostname=mysql: run and download mysql image locally.
 
 12. docker network create <network-name>: create docker network. 
 
