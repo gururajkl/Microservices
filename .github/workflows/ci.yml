@@ -36,6 +36,12 @@ jobs:
       - name: Build Users Service
         run: dotnet build Ecommerce.UsersService/Ecommerce.UsersService.slnx --configuration Release --no-restore
 
+      - name: Restore Orders Service
+        run: dotnet restore Ecommerce.OrdersService/Ecommerce.OrdersService.slnx
+
+      - name: Build Orders Service
+        run: dotnet build Ecommerce.OrdersService/Ecommerce.OrdersService.slnx --configuration Release --no-restore
+
   build-angular:
     runs-on: ubuntu-latest
 
