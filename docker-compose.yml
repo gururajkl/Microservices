@@ -9,13 +9,13 @@ services:
       - ./DatabaseQuery/products-init:/docker-entrypoint-initdb.d
     networks:
       - ecommerce-network
-    hostname: mysql-host-product-microservice
+    hostname: mysql-host-products-microservice
     command: --lower_case_table_names=1
   
   products-microservice:
     image: gururaj7741/ecommerce-product-microservice:v1.0
     environment:
-      MYSQL_HOSTNAME: mysql-host-product-microservice
+      MYSQL_HOSTNAME: mysql-host-products-microservice
       MYSQL_PASSWORD: admin
     ports:
       - "8080:8080"
