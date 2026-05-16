@@ -1,3 +1,4 @@
+using Ecommerce.API.Handlers;
 using Ecommerce.BusinessLogicLayer;
 using Ecommerce.DataAccessLayer;
 
@@ -12,7 +13,11 @@ builder.Services.AddBusinessLogicLayer();
 // Add data access layer services.
 builder.Services.AddDataAccessLayer();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 app.UseRouting();
 
