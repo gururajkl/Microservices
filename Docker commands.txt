@@ -55,3 +55,5 @@
 23: docker compose ps: show created container that are running.
 
 24: docker exec -it my-sql-container-name MySQL -u root -p databasename: run MySQL docker container in interactive mode with username and password.
+
+25: docker inspect <container>: view detailed information about a docker container.
