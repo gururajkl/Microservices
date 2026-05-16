@@ -1,4 +1,5 @@
 using Ecommerce.BusinessLogicLayer;
+using Ecommerce.DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,9 @@ builder.Services.AddSwaggerGen();
 
 // Add business logic layer services.
 builder.Services.AddBusinessLogicLayer();
+
+// Add data access layer services.
+builder.Services.AddDataAccessLayer();
 
 var app = builder.Build();
 
