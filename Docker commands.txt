@@ -57,3 +57,5 @@
 24: docker exec -it my-sql-container-name MySQL -u root -p databasename: run MySQL docker container in interactive mode with username and password.
 
 25: docker inspect <container>: view detailed information about a docker container.
+
+26: docker log <container>: View the logs of a running or stopped docker container.
