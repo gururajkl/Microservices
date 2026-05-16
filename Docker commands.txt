@@ -52,4 +52,4 @@
 
 * to run these commands in detached mode in terminal just use -d
 
-23: docker compose ps: show created container.
+23: docker compose ps: show created container that are running.
