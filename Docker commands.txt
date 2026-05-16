@@ -59,3 +59,5 @@
 25: docker inspect <container>: view detailed information about a docker container.
 
 26: docker logs <container>: View the logs of a running or stopped docker container.
+
+27: docker rmi <image>:<tag>: to remove docker image.
