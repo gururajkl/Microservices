@@ -13,7 +13,7 @@ services:
     command: --lower_case_table_names=1
   
   products-microservice:
-    image: gururaj7741/ecommerce-product-microservice:v1.0
+    image: gururaj7741/ecommerce-products-microservice:v1.0
     environment:
       MYSQL_HOSTNAME: mysql-host-products-microservice
       MYSQL_PASSWORD: admin
