@@ -51,3 +51,5 @@
 22: docker-compose unpause: resumes the containers.
 
 * to run these commands in detached mode in terminal just use -d
+
+23: docker compose ps: show created container.
