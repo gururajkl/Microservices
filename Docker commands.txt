@@ -61,3 +61,5 @@
 26: docker logs <container>: View the logs of a running or stopped docker container.
 
 27: docker rmi <image>:<tag>: to remove docker image.
+
+28: docker ps -a: to display the list of docker containers (including stopped ones)
