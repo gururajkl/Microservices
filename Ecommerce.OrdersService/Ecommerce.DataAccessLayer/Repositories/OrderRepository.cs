@@ -35,14 +35,17 @@ internal class OrderRepository : IOrderRepository
         return deleteResult.DeletedCount > 0;
     }
 
-    public Task<Order?> GetOrderByConditionAsync(FilterDefinition<Order> filter)
+    public async Task<Order?> GetOrderByConditionAsync(FilterDefinition<Order> filter)
     {
-        throw new NotImplementedException();
+        return await (await _orders.FindAsync(filter)).FirstOrDefaultAsync();
     }
 
-    public Task<IEnumerable<Order>> GetOrdersAsync()
+    public async Task<IEnumerable<Order>> GetOrdersAsync()
     {
-        throw new NotImplementedException();
+        // Create empty filter.
+        FilterDefinition<Order> filter = Builders<Order>.Filter.Empty;
+        var orders = await _orders.FindAsync(filter);
+        return await orders.ToListAsync();
     }
 
     public Task<IEnumerable<Order?>> GetOrdersByConditionAsync(FilterDefinition<Order> filter)
