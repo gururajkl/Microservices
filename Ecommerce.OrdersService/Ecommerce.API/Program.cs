@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddBusinessLogicLayer();
 
 // Add data access layer services.
-builder.Services.AddDataAccessLayer();
+builder.Services.AddDataAccessLayer(builder.Configuration);
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
