@@ -1,4 +1,5 @@
-﻿using Ecommerce.BusinessLogicLayer.Validators;
+﻿using Ecommerce.BusinessLogicLayer.Mappers;
+using Ecommerce.BusinessLogicLayer.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services)
     {
+        // Add Fluent validation into the pipeline.
         services.AddValidatorsFromAssemblyContaining<OrderAddRequestValidator>();
+
+        // Add Auto mapper into the pipeline.
+        services.AddAutoMapper(config => { }, typeof(OrderAddRequestToOrderMappingProfile).Assembly);
+
         return services;
     }
 }
