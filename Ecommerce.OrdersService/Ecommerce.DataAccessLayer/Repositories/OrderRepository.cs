@@ -53,8 +53,18 @@ internal class OrderRepository : IOrderRepository
         return await (await _orders.FindAsync(filter)).ToListAsync();
     }
 
-    public Task<Order?> UpdateOrderAsync(Order order)
+    public async Task<Order?> UpdateOrderAsync(Order order)
     {
-        throw new NotImplementedException();
+        // Create filter which will be used to find the id.
+        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderID, order.OrderID);
+
+        // Find the order using filter.
+        Order? exisitingOrder = await (await _orders.FindAsync(filter)).FirstOrDefaultAsync();
+
+        if (exisitingOrder is null) return null;
+
+        await _orders.ReplaceOneAsync(filter, order);
+
+        return order;
     }
 }
