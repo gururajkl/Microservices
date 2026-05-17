@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Ecommerce.BusinessLogicLayer.DTO;
+﻿using Ecommerce.BusinessLogicLayer.DTO;
 using Ecommerce.DataAccessLayer.Entities;
 
 namespace Ecommerce.BusinessLogicLayer.Mappers;
