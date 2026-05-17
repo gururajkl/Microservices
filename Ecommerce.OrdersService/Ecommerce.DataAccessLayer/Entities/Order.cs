@@ -5,11 +5,9 @@ namespace Ecommerce.DataAccessLayer.Entities;
 
 public class Order
 {
-    // With the help of this attribute OrderID will be used
-    // as _id in MongoDb.
+    // Maps OrderID as the MongoDB document identifier (_id).
     [BsonId]
-    // With the help of this attribute GUID will not be convereted as UUID
-    // and will be stored as string and will be easier to read.
+    // Stores Guid as a readable string instead of binary UUID.
     [BsonRepresentation(BsonType.String)]
     public Guid OrderID { get; set; }
     [BsonRepresentation(BsonType.String)]
