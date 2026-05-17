@@ -22,6 +22,7 @@ public static class DependencyInjection
             return client.GetDatabase("OrdersDatabase");
         });
 
+        // Register IOrderRepository and OrderRepository.
         services.AddScoped<IOrderRepository, OrderRepository>();
 
         return services;
