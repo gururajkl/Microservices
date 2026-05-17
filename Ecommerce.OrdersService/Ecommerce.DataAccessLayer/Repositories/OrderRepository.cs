@@ -20,9 +20,19 @@ internal class OrderRepository : IOrderRepository
         return order;
     }
 
-    public Task<bool> DeleteOrderAsync(Guid orderID)
+    public async Task<bool> DeleteOrderAsync(Guid orderID)
     {
-        throw new NotImplementedException();
+        // Create filter as per the need.
+        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderID, orderID);
+
+        // Pass the filter to find based on the condition.
+        Order? orderToDelete = await (await _orders.FindAsync(filter)).FirstOrDefaultAsync();
+
+        if (orderToDelete is null) return false;
+
+        DeleteResult deleteResult = await _orders.DeleteOneAsync(filter);
+
+        return deleteResult.DeletedCount > 0;
     }
 
     public Task<Order?> GetOrderByConditionAsync(FilterDefinition<Order> filter)
