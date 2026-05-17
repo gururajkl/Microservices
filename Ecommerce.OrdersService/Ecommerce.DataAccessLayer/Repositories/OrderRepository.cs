@@ -48,9 +48,9 @@ internal class OrderRepository : IOrderRepository
         return await orders.ToListAsync();
     }
 
-    public Task<IEnumerable<Order?>> GetOrdersByConditionAsync(FilterDefinition<Order> filter)
+    public async Task<IEnumerable<Order?>> GetOrdersByConditionAsync(FilterDefinition<Order> filter)
     {
-        throw new NotImplementedException();
+        return await (await _orders.FindAsync(filter)).ToListAsync();
     }
 
     public Task<Order?> UpdateOrderAsync(Order order)
