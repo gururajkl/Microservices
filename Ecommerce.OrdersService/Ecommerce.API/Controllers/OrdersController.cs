@@ -7,7 +7,7 @@ using MongoDB.Driver;
 namespace Ecommerce.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/orders")]
 public class OrdersController(IOrdersService service) : ControllerBase
 {
     [HttpGet]
@@ -34,7 +34,14 @@ public class OrdersController(IOrdersService service) : ControllerBase
     [HttpGet("search/orderDate/{orderDate}")]
     public async Task<IEnumerable<OrderResponse?>> GetOrdersByOrderDate(DateTime orderDate)
     {
-        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderDate.ToString("yyyyy-MM-dddd"), orderDate.ToString("yyyyy-MM-dddd"));
+        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderDate.ToString("yyyyy-MM-dddd"),
+            orderDate.ToString("yyyyy-MM-dddd"));
         return await service.GetOrdersByConditionAsync(filter);
+    }
+
+    [HttpDelete]
+    public async Task<bool> DeleteOrder(Guid orderID)
+    {
+        return await service.DeleteOrderAsync(orderID);
     }
 }
