@@ -34,6 +34,13 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
         return await service.GetOrdersByConditionAsync(filter);
     }
 
+    [HttpGet("search/user-id/{userID}")]
+    public async Task<IEnumerable<OrderResponse?>> GetOrdersByUserID(Guid userID)
+    {
+        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.UserID, userID);
+        return await service.GetOrdersByConditionAsync(filter);
+    }
+
     [HttpGet("search/orderDate/{orderDate}")]
     public async Task<IEnumerable<OrderResponse?>> GetOrdersByOrderDate(DateTime orderDate)
     {
