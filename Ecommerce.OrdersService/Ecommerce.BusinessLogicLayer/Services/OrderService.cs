@@ -69,9 +69,13 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
         return await repository.DeleteOrderAsync(orderID);
     }
 
-    public Task<OrderResponse?> GetOrderByConditionAsync(FilterDefinition<Order> filterDefinition)
+    public async Task<OrderResponse?> GetOrderByConditionAsync(FilterDefinition<Order> filterDefinition)
     {
-        throw new NotImplementedException();
+        Order? order = await repository.GetOrderByConditionAsync(filterDefinition);
+
+        if (order is null) return null;
+
+        return mapper.Map<OrderResponse>(order);
     }
 
     public Task<List<OrderResponse?>> GetOrdersAsync()
