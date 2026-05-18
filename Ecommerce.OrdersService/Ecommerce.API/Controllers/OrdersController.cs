@@ -17,9 +17,17 @@ public class OrdersController(IOrdersService service) : ControllerBase
     }
 
     [HttpGet("search/order-id/{orderID}")]
-    public async Task<OrderResponse?> GetOrder(Guid orderID)
+    public async Task<OrderResponse?> GetOrderByOrderID(Guid orderID)
     {
         FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderID, orderID);
         return await service.GetOrderByConditionAsync(filter);
+    }
+
+    [HttpGet("search/product-id/{productID}")]
+    public async Task<IEnumerable<OrderResponse?>> GetOrderByProductID(Guid productID)
+    {
+        FilterDefinition<Order> filter = Builders<Order>.Filter.ElemMatch(o => o.OrderItems,
+            Builders<OrderItem>.Filter.Eq(ot => ot.ProductID, productID));
+        return await service.GetOrdersByConditionAsync(filter);
     }
 }
