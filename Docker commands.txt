@@ -63,3 +63,5 @@
 27: docker rmi <image>:<tag>: to remove docker image.
 
 28: docker ps -a: to display the list of docker containers (including stopped ones)
+
+29: docker run --rm -p 27017:27017 --name mongodb-server -v "/d/ASP.NetCore HandsOn/Microservices/DatabaseQuery/orders-init:/docker-entrypoint-initdb.d" mongo:latest: to run the mongo image using specific volume
