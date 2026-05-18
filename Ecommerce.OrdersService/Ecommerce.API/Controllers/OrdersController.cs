@@ -50,6 +50,11 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
     [HttpPost]
     public async Task<ActionResult<OrderResponse?>> AddOrder(OrderAddRequest request)
     {
+        if (orderAddRequestValidator is null)
+        {
+            return BadRequest("Invalid order data");
+        }
+
         ValidationResult result = await orderAddRequestValidator.ValidateAsync(request);
 
         if (!result.IsValid)
@@ -64,7 +69,7 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
             return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
         }
 
-        return Created($"search/order-id/{response.OrderID}", response);
+        return CreatedAtAction(nameof(GetOrderByOrderID), new { orderID = response.OrderID }, response);
     }
 
     [HttpPut]
