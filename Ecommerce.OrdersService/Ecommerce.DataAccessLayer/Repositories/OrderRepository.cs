@@ -16,6 +16,13 @@ internal class OrderRepository : IOrderRepository
     public async Task<Order?> AddOrderAsync(Order order)
     {
         order.OrderID = Guid.NewGuid();
+        order._id = order.OrderID;
+
+        foreach (var item in order.OrderItems)
+        {
+            item._id = Guid.NewGuid();
+        }
+
         await _orders.InsertOneAsync(order);
         return order;
     }
@@ -62,6 +69,8 @@ internal class OrderRepository : IOrderRepository
         Order? exisitingOrder = await (await _orders.FindAsync(filter)).FirstOrDefaultAsync();
 
         if (exisitingOrder is null) return null;
+
+        order._id = exisitingOrder.OrderID;
 
         await _orders.ReplaceOneAsync(filter, order);
 
