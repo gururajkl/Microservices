@@ -25,6 +25,8 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
@@ -41,5 +43,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors();
+
+app.MapControllers();
 
 app.Run();
