@@ -42,10 +42,22 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
         return await service.GetOrdersByConditionAsync(filter);
     }
 
-    [HttpDelete]
-    public async Task<bool> DeleteOrder(Guid orderID)
+    [HttpDelete("{orderID:guid}")]
+    public async Task<ActionResult<bool>> DeleteOrder(Guid orderID)
     {
-        return await service.DeleteOrderAsync(orderID);
+        if (orderID == Guid.Empty)
+        {
+            return BadRequest("Invalid order ID");
+        }
+
+        bool result = await service.DeleteOrderAsync(orderID);
+
+        if (!result)
+        {
+            return Problem("Error deleting the product");
+        }
+
+        return Ok(result);
     }
 
     [HttpPost]
