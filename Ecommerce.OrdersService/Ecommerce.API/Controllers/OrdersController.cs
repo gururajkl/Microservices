@@ -1,6 +1,8 @@
 ﻿using Ecommerce.BusinessLogicLayer.DTO;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.DataAccessLayer.Entities;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 
@@ -8,7 +10,7 @@ namespace Ecommerce.API.Controllers;
 
 [ApiController]
 [Route("api/orders")]
-public class OrdersController(IOrdersService service) : ControllerBase
+public class OrdersController(IOrdersService service, IValidator<OrderAddRequest> orderAddRequestValidator) : ControllerBase
 {
     [HttpGet]
     public async Task<IEnumerable<OrderResponse?>> GetOrders()
@@ -43,5 +45,31 @@ public class OrdersController(IOrdersService service) : ControllerBase
     public async Task<bool> DeleteOrder(Guid orderID)
     {
         return await service.DeleteOrderAsync(orderID);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<OrderResponse?>> AddOrder(OrderAddRequest request)
+    {
+        ValidationResult result = await orderAddRequestValidator.ValidateAsync(request);
+
+        if (!result.IsValid)
+        {
+            return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
+        }
+
+        OrderResponse? response = await service.AddOrderAsync(request);
+
+        if (response is null)
+        {
+            return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
+        }
+
+        return Created($"search/order-id/{response.OrderID}", response);
+    }
+
+    [HttpPut]
+    public async Task<OrderResponse?> UpdateOrder(OrderUpdateRequest request)
+    {
+        return await service.UpdateOrderAsync(request);
     }
 }
