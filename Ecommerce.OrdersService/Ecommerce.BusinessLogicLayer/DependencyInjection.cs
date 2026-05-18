@@ -1,4 +1,6 @@
 ﻿using Ecommerce.BusinessLogicLayer.Mappers;
+using Ecommerce.BusinessLogicLayer.ServiceContracts;
+using Ecommerce.BusinessLogicLayer.Services;
 using Ecommerce.BusinessLogicLayer.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,8 @@ public static class DependencyInjection
 
         // Add Auto mapper into the pipeline.
         services.AddAutoMapper(config => { }, typeof(OrderAddRequestToOrderMappingProfile).Assembly);
+
+        services.AddScoped<IOrdersService, OrderService>();
 
         return services;
     }
