@@ -78,9 +78,10 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
         return mapper.Map<OrderResponse>(order);
     }
 
-    public Task<List<OrderResponse?>> GetOrdersAsync()
+    public async Task<List<OrderResponse?>> GetOrdersAsync()
     {
-        throw new NotImplementedException();
+        var orders = await repository.GetOrdersAsync();
+        return [.. mapper.Map<IEnumerable<OrderResponse>>(orders)];
     }
 
     public async Task<List<OrderResponse?>> GetOrdersByConditionAsync(FilterDefinition<Order> filterDefinition)
