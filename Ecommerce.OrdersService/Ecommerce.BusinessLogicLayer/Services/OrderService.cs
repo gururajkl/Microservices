@@ -9,8 +9,8 @@ using MongoDB.Driver;
 namespace Ecommerce.BusinessLogicLayer.Services;
 
 internal class OrderService(IOrderRepository repository, IMapper mapper,
-    IValidator<OrderAddRequest> addRequestValidator, IValidator<OrderItemAddRequest> orderItemAddValidator,
-    IValidator<OrderUpdateRequest> orderUpdateRequestValidator, IValidator<OrderItemUpdateRequest> orderItemUpdateRequest) : IOrdersService
+    IValidator<OrderAddRequest> orderAddRequestValidator, IValidator<OrderItemAddRequest> orderItemAddValidator,
+    IValidator<OrderUpdateRequest> orderUpdateRequestValidator, IValidator<OrderItemUpdateRequest> orderItemUpdateRequestValidator) : IOrdersService
 {
     public async Task<OrderResponse?> AddOrderAsync(OrderAddRequest request)
     {
@@ -18,7 +18,7 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
         ArgumentNullException.ThrowIfNull(request);
 
         // Validate Order using Fluent validation.
-        ValidationResult orderValidationResult = await addRequestValidator.ValidateAsync(request);
+        ValidationResult orderValidationResult = await orderAddRequestValidator.ValidateAsync(request);
 
         if (!orderValidationResult.IsValid)
         {
@@ -78,8 +78,49 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
         throw new NotImplementedException();
     }
 
-    public Task<OrderResponse?> UpdateOrderAsync(OrderUpdateRequest request)
+    public async Task<OrderResponse?> UpdateOrderAsync(OrderUpdateRequest request)
     {
-        throw new NotImplementedException();
+        // If the parameter is null.
+        ArgumentNullException.ThrowIfNull(request);
+
+        // Validate Order using Fluent validation.
+        ValidationResult orderUpdateValidationResult = await orderUpdateRequestValidator.ValidateAsync(request);
+
+        if (!orderUpdateValidationResult.IsValid)
+        {
+            string errors = string.Join(", ", orderUpdateValidationResult.Errors.Select(e => e.ErrorMessage));
+            throw new ArgumentException(errors);
+        }
+
+        // Validate OrderItems using Fluent validation.
+        foreach (var orderItem in request.OrderItems)
+        {
+            ValidationResult orderItemUpdateValidationResult = await orderItemUpdateRequestValidator.ValidateAsync(orderItem);
+
+            if (!orderItemUpdateValidationResult.IsValid)
+            {
+                string errors = string.Join(", ", orderUpdateValidationResult.Errors.Select(e => e.ErrorMessage));
+                throw new ArgumentException(errors);
+            }
+        }
+
+        // TODO: Validate userID using UsersMicroservice.
+
+        Order orderToUpdate = mapper.Map<Order>(request);
+
+        // Calculate the total price.
+        foreach (var orderItem in orderToUpdate.OrderItems)
+        {
+            orderItem.TotalPrice = orderItem.UnitPrice * orderItem.Quantity;
+        }
+
+        orderToUpdate.TotalBill = orderToUpdate.OrderItems.Sum(o => o.TotalPrice);
+
+        // Using repo add the order.
+        Order? orderFromDB = await repository.UpdateOrderAsync(orderToUpdate);
+
+        if (orderFromDB is null) return null;
+
+        return mapper.Map<OrderResponse>(orderFromDB);
     }
 }
