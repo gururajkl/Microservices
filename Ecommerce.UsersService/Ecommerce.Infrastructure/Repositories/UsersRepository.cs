@@ -37,7 +37,7 @@ internal class UsersRepository(DapperDbContext dbContext) : IUsersRepository
         string query = "SELECT * FROM public.\"Users\" WHERE \"UserID\" = @UserID";
         var parameters = new { UserID = userID };
 
-        ApplicationUser? user = await dbContext.DbConnection.QueryFirstOrDefaultAsync(query, parameters);
+        ApplicationUser? user = await dbContext.DbConnection.QueryFirstOrDefaultAsync<ApplicationUser>(query, parameters);
 
         return user;
     }
