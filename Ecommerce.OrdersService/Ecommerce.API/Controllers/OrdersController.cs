@@ -44,8 +44,8 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
     [HttpGet("search/orderDate/{orderDate}")]
     public async Task<IEnumerable<OrderResponse?>> GetOrdersByOrderDate(DateTime orderDate)
     {
-        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderDate.ToString("yyyyy-MM-dddd"),
-            orderDate.ToString("yyyyy-MM-dddd"));
+        FilterDefinition<Order> filter = Builders<Order>.Filter.Eq(o => o.OrderDate.ToString("yyyy-MM-dd"),
+            orderDate.ToString("yyyy-MM-dd"));
         return await service.GetOrdersByConditionAsync(filter);
     }
 
