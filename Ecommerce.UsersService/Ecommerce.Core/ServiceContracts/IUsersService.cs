@@ -16,4 +16,9 @@ public interface IUsersService
     /// Method to register a new user based on the provided registration request.
     /// </summary>
     Task<AuthenticationResponse?> RegisterAsync(RegisterRequest request);
+
+    /// <summary>
+    /// Method to get the user info using user id.
+    /// </summary>
+    Task<UserDTO?> GetUserByUserID(Guid userID);
 }
