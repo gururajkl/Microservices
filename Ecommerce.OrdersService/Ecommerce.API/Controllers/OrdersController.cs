@@ -10,7 +10,8 @@ namespace Ecommerce.API.Controllers;
 
 [ApiController]
 [Route("api/orders")]
-public class OrdersController(IOrdersService service, IValidator<OrderAddRequest> orderAddRequestValidator) : ControllerBase
+public class OrdersController(IOrdersService service, IValidator<OrderAddRequest> orderAddRequestValidator,
+    IValidator<OrderUpdateRequest> orderUpdateRequestValidator) : ControllerBase
 {
     [HttpGet]
     public async Task<IEnumerable<OrderResponse?>> GetOrders()
@@ -73,8 +74,27 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
     }
 
     [HttpPut]
-    public async Task<OrderResponse?> UpdateOrder(OrderUpdateRequest request)
+    public async Task<ActionResult<OrderResponse?>> UpdateOrder(OrderUpdateRequest request)
     {
-        return await service.UpdateOrderAsync(request);
+        if (orderUpdateRequestValidator is null)
+        {
+            return BadRequest("Invalid order data");
+        }
+
+        ValidationResult result = await orderUpdateRequestValidator.ValidateAsync(request);
+
+        if (!result.IsValid)
+        {
+            return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
+        }
+
+        OrderResponse? response = await service.UpdateOrderAsync(request);
+
+        if (response is null)
+        {
+            return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
+        }
+
+        return Ok(response);
     }
 }
