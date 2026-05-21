@@ -8,7 +8,7 @@ public class UsersMicroserviceClient(HttpClient httpClient)
 {
     public async Task<UserDTO?> GetUserByUserID(Guid userID)
     {
-        HttpResponseMessage response = await httpClient.GetAsync($"api/users/{userID}");
+        HttpResponseMessage response = await httpClient.GetAsync($"/api/users/{userID}");
 
         if (!response.IsSuccessStatusCode)
         {
@@ -16,14 +16,14 @@ public class UsersMicroserviceClient(HttpClient httpClient)
             {
                 return null;
             }
-            if (response.StatusCode == HttpStatusCode.BadRequest)
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 throw new HttpRequestException("Bad request", null, HttpStatusCode.BadRequest);
             }
-        }
-        else
-        {
-            throw new HttpRequestException($"HTTP request failed with status code: {response.StatusCode}");
+            else
+            {
+                throw new HttpRequestException($"HTTP request failed with status code: {response.StatusCode}");
+            }
         }
 
         UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
