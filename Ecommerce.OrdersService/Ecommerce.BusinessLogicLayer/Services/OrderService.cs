@@ -1,4 +1,5 @@
 ﻿using Ecommerce.BusinessLogicLayer.DTO;
+using Ecommerce.BusinessLogicLayer.HttpClients;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.DataAccessLayer.Entities;
 using Ecommerce.DataAccessLayer.RepositoryContracts;
@@ -10,7 +11,8 @@ namespace Ecommerce.BusinessLogicLayer.Services;
 
 internal class OrderService(IOrderRepository repository, IMapper mapper,
     IValidator<OrderAddRequest> orderAddRequestValidator, IValidator<OrderItemAddRequest> orderItemAddValidator,
-    IValidator<OrderUpdateRequest> orderUpdateRequestValidator, IValidator<OrderItemUpdateRequest> orderItemUpdateRequestValidator) : IOrdersService
+    IValidator<OrderUpdateRequest> orderUpdateRequestValidator, IValidator<OrderItemUpdateRequest> orderItemUpdateRequestValidator,
+    UsersMicroserviceClient client) : IOrdersService
 {
     public async Task<OrderResponse?> AddOrderAsync(OrderAddRequest request)
     {
@@ -38,7 +40,7 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             }
         }
 
-        // TODO: Validate userID using UsersMicroservice.
+        UserDTO? user = await client.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
 
         Order orderToAdd = mapper.Map<Order>(request);
 
@@ -119,7 +121,7 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             }
         }
 
-        // TODO: Validate userID using UsersMicroservice.
+        UserDTO? user = await client.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
 
         Order orderToUpdate = mapper.Map<Order>(request);
 
