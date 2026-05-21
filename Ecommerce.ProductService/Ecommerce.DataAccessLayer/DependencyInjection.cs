@@ -8,6 +8,9 @@ public static class DependencyInjection
 
         // Replace with environment values.
         string connectionString = connectionStringFromJSON.Replace("$MYSQL_HOSTNAME", Environment.GetEnvironmentVariable("MYSQL_HOSTNAME"))
+            .Replace("$MYSQL_PORT", Environment.GetEnvironmentVariable("MYSQL_PORT"))
+            .Replace("$MYSQL_DATABASE", Environment.GetEnvironmentVariable("MYSQL_DATABASE"))
+            .Replace("$MYSQL_USER", Environment.GetEnvironmentVariable("MYSQL_USER"))
             .Replace("$MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"));
 
         // Register ApplicationDbContext with MySQL provider and connection string from configuration.
