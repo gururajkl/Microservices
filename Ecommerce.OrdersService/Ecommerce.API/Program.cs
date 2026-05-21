@@ -1,5 +1,6 @@
 using Ecommerce.API.Handlers;
 using Ecommerce.BusinessLogicLayer;
+using Ecommerce.BusinessLogicLayer.HttpClients;
 using Ecommerce.DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,11 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+
+builder.Services.AddHttpClient<UsersMicroserviceClient>(config =>
+{
+    config.BaseAddress = new Uri($"http://{builder.Configuration["UsersMicroserviceName"]}:{builder.Configuration["UsersMicroservicePort"]}");
+});
 
 var app = builder.Build();
 
