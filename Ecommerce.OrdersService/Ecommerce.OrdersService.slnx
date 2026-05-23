@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
   <Project Path="Ecommerce.API/Ecommerce.API.csproj" />
   <Project Path="Ecommerce.BusinessLogicLayer/Ecommerce.BusinessLogicLayer.csproj" />
   <Project Path="Ecommerce.DataAccessLayer/Ecommerce.DataAccessLayer.csproj" />
