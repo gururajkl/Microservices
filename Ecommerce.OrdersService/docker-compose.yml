@@ -7,14 +7,16 @@ services:
     ports:
       - "7000:8080"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - MONGO_HOST=mongodb-container
       - MONGO_PORT=27017
       - MONGODB_DATABASE=OrdersDatabase
-      - UsersMicroserviceName=usersmicroservice
-      - UsersMicroservicePort=9090
+      - UsersMicroserviceName=users-microservice
+      - UsersMicroservicePort=5000
     networks:
       - order-mongo-db-network
+    depends_on:
+      - mongodb-container
+      - users-microservice
 
   mongodb-container:
     image: mongo:latest
@@ -39,6 +41,9 @@ services:
       - "6000:8080"
     networks:
       - product-mysql-db-network
+      - ecommerce-network
+    depends_on:
+      - mysql-container
 
   mysql-container:
     image: mysql:latest
@@ -52,8 +57,43 @@ services:
       - product-mysql-db-network
     command: --lower_case_table_names=1
 
+  users-microservice:
+    image: users-microservice:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - POSTGRES_HOSTNAME=postgres-container
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DATABASE=eCommerceUsers
+      - POSTGRES_USER=postgres
+    ports:
+      - "5000:8080"
+    networks:
+      - user-postgres-db-network
+      - ecommerce-network
+    depends_on:
+      - postgres-container
+
+  postgres-container:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: eCommerceUsers
+    ports:
+      - "5433:5432"
+    volumes:
+      - ../DatabaseQuery/users-init:/docker-entrypoint-initdb.d
+    networks:
+      - user-postgres-db-network
+
 networks:
   order-mongo-db-network:
     driver: bridge
   product-mysql-db-network:
+    driver: bridge
+  user-postgres-db-network:
+    driver: bridge
+  ecommerce-network:
     driver: bridge
