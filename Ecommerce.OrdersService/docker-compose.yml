@@ -7,6 +7,7 @@ services:
     ports:
       - "7000:8080"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - MONGO_HOST=mongodb-container
       - MONGO_PORT=27017
       - MONGODB_DATABASE=OrdersDatabase
@@ -24,6 +25,35 @@ services:
     networks:
       - order-mongo-db-network
 
+  products-microservice:
+    image: products-microservice:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - MYSQL_HOSTNAME=mysql-container
+      - MYSQL_PORT=3306
+      - MYSQL_Password=admin
+      - MYSQL_DATABASE=ecommerceproductsdatabase
+      - MYSQL_USER=root
+    ports:
+      - "6000:8080"
+    networks:
+      - product-mysql-db-network
+
+  mysql-container:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - ../DatabaseQuery/products-init:/docker-entrypoint-initdb.d
+    networks:
+      - product-mysql-db-network
+    command: --lower_case_table_names=1
+
 networks:
   order-mongo-db-network:
+    driver: bridge
+  product-mysql-db-network:
     driver: bridge
