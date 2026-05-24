@@ -12,7 +12,7 @@ namespace Ecommerce.BusinessLogicLayer.Services;
 internal class OrderService(IOrderRepository repository, IMapper mapper,
     IValidator<OrderAddRequest> orderAddRequestValidator, IValidator<OrderItemAddRequest> orderItemAddValidator,
     IValidator<OrderUpdateRequest> orderUpdateRequestValidator, IValidator<OrderItemUpdateRequest> orderItemUpdateRequestValidator,
-    UsersMicroserviceClient client) : IOrdersService
+    UsersMicroserviceClient usersServiceClient, ProductsMicroserviceClient productsServiceClient) : IOrdersService
 {
     public async Task<OrderResponse?> AddOrderAsync(OrderAddRequest request)
     {
@@ -38,9 +38,13 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
                 string errors = string.Join(", ", orderValidationResult.Errors.Select(e => e.ErrorMessage));
                 throw new ArgumentException(errors);
             }
+
+            // Validate the product id by calling the products microservice.
+            ProductDTO? product = await productsServiceClient.GetProductByProductID(orderItem.ProductID)
+                ?? throw new ArgumentException("Invalid product id");
         }
 
-        UserDTO? user = await client.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
+        UserDTO? user = await usersServiceClient.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
 
         Order orderToAdd = mapper.Map<Order>(request);
 
@@ -119,9 +123,13 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
                 string errors = string.Join(", ", orderUpdateValidationResult.Errors.Select(e => e.ErrorMessage));
                 throw new ArgumentException(errors);
             }
+
+            // Validate the product id by calling the products microservice.
+            ProductDTO? product = await productsServiceClient.GetProductByProductID(orderItem.ProductID)
+                ?? throw new ArgumentException("Invalid product id");
         }
 
-        UserDTO? user = await client.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
+        UserDTO? user = await usersServiceClient.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
 
         Order orderToUpdate = mapper.Map<Order>(request);
 
