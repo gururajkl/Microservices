@@ -28,6 +28,8 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             throw new ArgumentException(errors);
         }
 
+        List<ProductDTO> products = [];
+
         // Validate OrderItems using Fluent validation.
         foreach (var orderItem in request.OrderItems)
         {
@@ -42,6 +44,8 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             // Validate the product id by calling the products microservice.
             ProductDTO? product = await productsServiceClient.GetProductByProductID(orderItem.ProductID)
                 ?? throw new ArgumentException("Invalid product id");
+
+            products.Add(product);
         }
 
         UserDTO? user = await usersServiceClient.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
@@ -61,7 +65,18 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
         if (orderFromDB is null) return null;
 
-        return mapper.Map<OrderResponse>(orderFromDB);
+        var orderResponse = mapper.Map<OrderResponse>(orderFromDB);
+
+        if (orderResponse is null) return null;
+
+        foreach (var orderItem in orderResponse.OrderItems)
+        {
+            ProductDTO? productDTO = products.FirstOrDefault(p => p.ProductID == orderItem.ProductID);
+            if (productDTO is null) continue;
+            mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
+        }
+
+        return orderResponse;
     }
 
     public async Task<bool> DeleteOrderAsync(Guid orderID)
@@ -81,7 +96,20 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
         if (order is null) return null;
 
-        return mapper.Map<OrderResponse>(order);
+        var orderResponse = mapper.Map<OrderResponse>(order);
+
+        if (orderResponse is null) return null;
+
+        foreach (var orderItem in orderResponse.OrderItems)
+        {
+            ProductDTO? productDTO = await productsServiceClient.GetProductByProductID(orderItem.ProductID);
+
+            if (productDTO is null) continue;
+
+            mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
+        }
+
+        return orderResponse;
     }
 
     public async Task<List<OrderResponse?>> GetOrdersAsync()
@@ -115,7 +143,26 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
         if (orders is null) return [];
 
-        return [.. mapper.Map<IEnumerable<OrderResponse?>>(orders)];
+        var orderResponses = mapper.Map<IEnumerable<OrderResponse?>>(orders);
+
+        foreach (var orderResponse in orderResponses)
+        {
+            if (orderResponse is null)
+            {
+                continue;
+            }
+
+            foreach (var orderItem in orderResponse.OrderItems)
+            {
+                ProductDTO? productDTO = await productsServiceClient.GetProductByProductID(orderItem.ProductID);
+
+                if (productDTO is null) continue;
+
+                mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
+            }
+        }
+
+        return [.. orderResponses];
     }
 
     public async Task<OrderResponse?> UpdateOrderAsync(OrderUpdateRequest request)
@@ -132,6 +179,8 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             throw new ArgumentException(errors);
         }
 
+        List<ProductDTO> products = [];
+
         // Validate OrderItems using Fluent validation.
         foreach (var orderItem in request.OrderItems)
         {
@@ -146,6 +195,8 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             // Validate the product id by calling the products microservice.
             ProductDTO? product = await productsServiceClient.GetProductByProductID(orderItem.ProductID)
                 ?? throw new ArgumentException("Invalid product id");
+
+            products.Add(product);
         }
 
         UserDTO? user = await usersServiceClient.GetUserByUserID(request.UserID) ?? throw new ArgumentException("Invalid user id");
@@ -165,6 +216,17 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
         if (orderFromDB is null) return null;
 
-        return mapper.Map<OrderResponse>(orderFromDB);
+        var orderResponse = mapper.Map<OrderResponse>(orderFromDB);
+
+        if (orderResponse is null) return null;
+
+        foreach (var orderItem in orderResponse.OrderItems)
+        {
+            ProductDTO? productDTO = products.FirstOrDefault(p => p.ProductID == orderItem.ProductID);
+            if (productDTO is null) continue;
+            mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
+        }
+
+        return orderResponse;
     }
 }
