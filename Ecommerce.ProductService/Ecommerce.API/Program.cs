@@ -12,6 +12,8 @@ builder.Services.AddDataAccessLayer(builder.Configuration);
 // Add business logic layer services.
 builder.Services.AddBusinessLogicLayer();
 
+builder.Services.AddEndpointsApiExplorer();
+
 // Add Swagger generation services to the dependency injection container to create swagger specification.
 builder.Services.AddSwaggerGen();
 
