@@ -87,7 +87,26 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
     public async Task<List<OrderResponse?>> GetOrdersAsync()
     {
         var orders = await repository.GetOrdersAsync();
-        return [.. mapper.Map<IEnumerable<OrderResponse>>(orders)];
+        IEnumerable<OrderResponse> orderResponses = mapper.Map<IEnumerable<OrderResponse>>(orders);
+
+        foreach (var orderResponse in orderResponses)
+        {
+            if (orderResponse is null)
+            {
+                continue;
+            }
+
+            foreach (var orderItem in orderResponse.OrderItems)
+            {
+                ProductDTO? productDTO = await productsServiceClient.GetProductByProductID(orderItem.ProductID);
+
+                if (productDTO is null) continue;
+
+                mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
+            }
+        }
+
+        return [.. orderResponses];
     }
 
     public async Task<List<OrderResponse?>> GetOrdersByConditionAsync(FilterDefinition<Order> filterDefinition)
