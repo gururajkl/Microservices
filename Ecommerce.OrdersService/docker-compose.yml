@@ -11,9 +11,10 @@ services:
       - MONGO_PORT=27017
       - MONGODB_DATABASE=OrdersDatabase
       - UsersMicroserviceName=users-microservice
-      - UsersMicroservicePort=5000
+      - UsersMicroservicePort=9090
     networks:
       - order-mongo-db-network
+      - ecommerce-network
     depends_on:
       - mongodb-container
       - users-microservice
@@ -61,7 +62,7 @@ services:
     image: users-microservice:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTP_PORTS=9090
       - POSTGRES_HOSTNAME=postgres-container
       - POSTGRES_PORT=5432
       - POSTGRES_PASSWORD=admin
