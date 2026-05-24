@@ -68,7 +68,7 @@ services:
       - POSTGRES_DATABASE=eCommerceUsers
       - POSTGRES_USER=postgres
     ports:
-      - "5000:8080"
+      - "5000:9090"
     networks:
       - user-postgres-db-network
       - ecommerce-network
