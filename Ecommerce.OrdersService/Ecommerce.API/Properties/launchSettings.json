@@ -8,6 +8,8 @@
         "MONGODB_DATABASE": "OrdersDatabase",
         "UsersMicroserviceName": "localhost",
         "UsersMicroservicePort": "9090",
+        "ProductsMicroserviceName": "localhost",
+        "ProductsMicroservicePort": "5203",
         "MONGO_HOST": "localhost"
       },
       "dotnetRunMessages": true,
