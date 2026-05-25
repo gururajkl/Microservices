@@ -69,6 +69,12 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
         if (orderResponse is null) return null;
 
+        // Populate user details.
+        if (user is not null)
+        {
+            mapper.Map<UserDTO, OrderResponse>(user, orderResponse);
+        }
+
         foreach (var orderItem in orderResponse.OrderItems)
         {
             ProductDTO? productDTO = products.FirstOrDefault(p => p.ProductID == orderItem.ProductID);
@@ -107,6 +113,14 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
             if (productDTO is null) continue;
 
             mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
+        }
+
+        UserDTO? user = await usersServiceClient.GetUserByUserID(orderResponse.UserID);
+
+        // Populate user details.
+        if (user is not null)
+        {
+            mapper.Map<UserDTO, OrderResponse>(user, orderResponse);
         }
 
         return orderResponse;
@@ -167,6 +181,13 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
                 mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
             }
+
+            // Populate user details.
+            UserDTO? userDTO = await usersServiceClient.GetUserByUserID(orderResponse.UserID);
+
+            if (userDTO is null) continue;
+
+            mapper.Map<UserDTO, OrderResponse>(userDTO, orderResponse);
         }
 
         return [.. orderResponses];
@@ -226,6 +247,12 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
         var orderResponse = mapper.Map<OrderResponse>(orderFromDB);
 
         if (orderResponse is null) return null;
+
+        // Populate user details.
+        if (user is not null)
+        {
+            mapper.Map<UserDTO, OrderResponse>(user, orderResponse);
+        }
 
         foreach (var orderItem in orderResponse.OrderItems)
         {
