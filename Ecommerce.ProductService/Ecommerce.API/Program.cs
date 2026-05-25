@@ -36,6 +36,8 @@ var app = builder.Build();
 
 app.UseExceptionHandler();
 
+app.UseCors();
+
 app.UseRouting();
 
 if (app.Environment.IsDevelopment())
@@ -49,7 +51,5 @@ if (app.Environment.IsDevelopment())
 
 // Map product api endpoints to the application.
 app.MapProductAPIEndpoints();
-
-app.UseCors();
 
 app.Run();
