@@ -42,6 +42,8 @@ var app = builder.Build();
 
 app.UseExceptionHandler();
 
+app.UseCors();
+
 app.UseRouting();
 
 if (app.Environment.IsDevelopment())
@@ -52,8 +54,6 @@ if (app.Environment.IsDevelopment())
     // Adds the swagger ui which can be used to test the API endpoints and view the API documentation.
     app.UseSwaggerUI();
 }
-
-app.UseCors();
 
 app.MapControllers();
 
