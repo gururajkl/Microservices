@@ -65,3 +65,5 @@
 28: docker ps -a: to display the list of docker containers (including stopped ones)
 
 29: docker run --rm -p 27017:27017 --name mongodb-server -v "/d/ASP.NetCore HandsOn/Microservices/DatabaseQuery/orders-init:/docker-entrypoint-initdb.d" mongo:latest: to run the mongo image using specific volume
+
+30: docker exec -it dockercompose6474276371580240700-postgres-container-1 psql -U postgres -d eCommerceUsers -c "SELECT * FROM \"Users\";": To run sql command to see current user.
