@@ -1,0 +1,13 @@
+﻿using Ecommerce.BusinessLogicLayer.DTO;
+
+namespace Ecommerce.BusinessLogicLayer.Mappers;
+
+public class UserDTOToOrderResponseMappingProfile : Profile
+{
+    public UserDTOToOrderResponseMappingProfile()
+    {
+        CreateMap<UserDTO, OrderResponse>()
+            .ForMember(dest => dest.PersonName, opt => opt.MapFrom(src => src.PersonName))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+    }
+}

@@ -132,6 +132,13 @@ internal class OrderService(IOrderRepository repository, IMapper mapper,
 
                 mapper.Map<ProductDTO, OrderItemResponse>(productDTO, orderItem);
             }
+
+            // Populate user details.
+            UserDTO? userDTO = await usersServiceClient.GetUserByUserID(orderResponse.UserID);
+
+            if (userDTO is null) continue;
+
+            mapper.Map<UserDTO, OrderResponse>(userDTO, orderResponse);
         }
 
         return [.. orderResponses];
