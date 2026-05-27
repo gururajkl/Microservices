@@ -34,7 +34,11 @@ builder.Services.AddHttpClient<UsersMicroserviceClient>(config =>
     config.BaseAddress = new Uri($"http://{builder.Configuration["UsersMicroserviceName"]}:{builder.Configuration["UsersMicroservicePort"]}");
 })
 // Add retry policy using Polly to handle transient faults when calling the users microservice.
-.AddPolicyHandler(builder.Services.BuildServiceProvider().GetRequiredService<IUserMicroservicePolicies>().GetRetryPolicy());
+.AddPolicyHandler((IServiceProvider serviceProvider, HttpRequestMessage request) =>
+{
+    var policies = serviceProvider.GetRequiredService<IUserMicroservicePolicies>();
+    return policies.GetRetryPolicy();
+});
 
 builder.Services.AddHttpClient<ProductsMicroserviceClient>(config =>
 {
