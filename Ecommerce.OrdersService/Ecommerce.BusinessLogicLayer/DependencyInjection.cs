@@ -1,4 +1,6 @@
 ﻿using Ecommerce.BusinessLogicLayer.Mappers;
+using Ecommerce.BusinessLogicLayer.Policies;
+using Ecommerce.BusinessLogicLayer.Policies.Contracts;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.BusinessLogicLayer.Services;
 using Ecommerce.BusinessLogicLayer.Validators;
@@ -18,6 +20,8 @@ public static class DependencyInjection
         services.AddAutoMapper(config => { }, typeof(OrderAddRequestToOrderMappingProfile).Assembly);
 
         services.AddScoped<IOrdersService, OrderService>();
+
+        services.AddTransient<IUserMicroservicePolicies, UserMicroservicePolicies>();
 
         return services;
     }

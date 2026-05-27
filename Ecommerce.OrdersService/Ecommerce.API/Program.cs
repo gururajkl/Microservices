@@ -1,8 +1,8 @@
 using Ecommerce.API.Handlers;
 using Ecommerce.BusinessLogicLayer;
 using Ecommerce.BusinessLogicLayer.HttpClients;
+using Ecommerce.BusinessLogicLayer.Policies.Contracts;
 using Ecommerce.DataAccessLayer;
-using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,12 +34,7 @@ builder.Services.AddHttpClient<UsersMicroserviceClient>(config =>
     config.BaseAddress = new Uri($"http://{builder.Configuration["UsersMicroserviceName"]}:{builder.Configuration["UsersMicroservicePort"]}");
 })
 // Add retry policy using Polly to handle transient faults when calling the users microservice.
-// The policy will retry the request up to 5 times with a delay of 3 seconds between each retry if the response is not successful.
-.AddPolicyHandler(Policy.HandleResult<HttpResponseMessage>(result => !result.IsSuccessStatusCode)
-.WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(3), onRetry: (response, timespan, retryCount, context) =>
-{
-    // TODO: Add logging here to log the failed response and retry attempt.
-}));
+.AddPolicyHandler(builder.Services.BuildServiceProvider().GetRequiredService<IUserMicroservicePolicies>().GetRetryPolicy());
 
 builder.Services.AddHttpClient<ProductsMicroserviceClient>(config =>
 {
