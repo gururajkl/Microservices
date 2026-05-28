@@ -12,6 +12,7 @@ internal class ProductsMicroservicePolicies(ILogger<ProductsMicroservicePolicies
 {
     public IAsyncPolicy<HttpResponseMessage> GetFallbackPolicy()
     {
+        // The fallback policy will return a temporary unavailable product when the products microservice is unavailable.
         AsyncFallbackPolicy<HttpResponseMessage> policy = Policy.HandleResult<HttpResponseMessage>(result => !result.IsSuccessStatusCode)
             .FallbackAsync(async (context) =>
             {
