@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.CircuitBreaker;
 using Polly.Retry;
+using Polly.Timeout;
 
 namespace Ecommerce.BusinessLogicLayer.Policies;
 
@@ -40,6 +41,18 @@ public class UserMicroservicePolicies(ILogger<UserMicroservicePolicies> logger) 
             {
                 logger.LogInformation("Circuit breaker reset for users microservice. Resuming normal operation.");
             });
+
+        return policy;
+    }
+
+    public IAsyncPolicy<HttpResponseMessage> GetTimeoutPolicy()
+    {
+        AsyncTimeoutPolicy<HttpResponseMessage> policy = Policy.TimeoutAsync<HttpResponseMessage>(TimeSpan.FromSeconds(3), TimeoutStrategy.Optimistic,
+            onTimeoutAsync: (context, timespan, task) =>
+        {
+            logger.LogWarning("Timeout occurred for users microservice after {TimeSpan}. Context: {Context}", timespan, context);
+            return Task.CompletedTask;
+        });
 
         return policy;
     }

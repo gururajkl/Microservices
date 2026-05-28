@@ -2,6 +2,7 @@
 using Ecommerce.BusinessLogicLayer.DTO;
 using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
+using Polly.Timeout;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -39,6 +40,11 @@ public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicrose
         catch (BrokenCircuitException ex)
         {
             logger.LogError(ex, "Circuit breaker is open. Returning temporary unavailable user.");
+            return new(Guid.Empty, "Temporary Unavailable", "Temporary Unavailable", "Temporary Unavailable");
+        }
+        catch (TimeoutRejectedException ex)
+        {
+            logger.LogError(ex, "Timeout occurred. Returning temporary unavailable user.");
             return new(Guid.Empty, "Temporary Unavailable", "Temporary Unavailable", "Temporary Unavailable");
         }
     }

@@ -42,7 +42,9 @@ builder.Services.AddHttpClient<UsersMicroserviceClient>(config =>
 // Add retry policy using Polly to handle transient faults when calling the users microservice.
 .AddPolicyHandler(usersMicroservicePolicies.GetRetryPolicy())
 // Add circuit breaker policy handler using Polly to the user micorservice client.
-.AddPolicyHandler(usersMicroservicePolicies.GetCircuitBreakerPolicy());
+.AddPolicyHandler(usersMicroservicePolicies.GetCircuitBreakerPolicy())
+// Add timeout policy handler using Polly to the user micorservice client.
+.AddPolicyHandler(usersMicroservicePolicies.GetTimeoutPolicy());
 
 builder.Services.AddHttpClient<ProductsMicroserviceClient>(config =>
 {
