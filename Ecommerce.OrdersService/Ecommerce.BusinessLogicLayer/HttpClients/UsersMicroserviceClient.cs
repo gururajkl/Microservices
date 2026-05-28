@@ -22,7 +22,8 @@ public class UsersMicroserviceClient(HttpClient httpClient)
             }
             else
             {
-                throw new HttpRequestException($"HTTP request failed with status code: {response.StatusCode}");
+                // For other status codes, we can choose to throw an exception or return null. Here, we will return a temporary error user as Fault data.
+                return new(Guid.Empty, "Temporary Unavailable", "Temporary Unavailable", "Temporary Unavailable");
             }
         }
 
