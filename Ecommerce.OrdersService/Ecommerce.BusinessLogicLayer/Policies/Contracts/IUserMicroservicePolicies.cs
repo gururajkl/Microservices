@@ -8,4 +8,5 @@ namespace Ecommerce.BusinessLogicLayer.Policies.Contracts;
 public interface IUserMicroservicePolicies
 {
     IAsyncPolicy<HttpResponseMessage> GetRetryPolicy();
+    IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy();
 }
