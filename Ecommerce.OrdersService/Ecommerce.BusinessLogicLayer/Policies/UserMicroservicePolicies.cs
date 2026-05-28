@@ -11,7 +11,8 @@ public class UserMicroservicePolicies(ILogger<UserMicroservicePolicies> logger) 
     public IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
     {
         AsyncRetryPolicy<HttpResponseMessage> policy = Policy.HandleResult<HttpResponseMessage>(result => !result.IsSuccessStatusCode)
-            .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(3), onRetry: (response, timespan, retryCount, context) =>
+            // Math.Pow(2, retryAttempt) will create an exponential backoff strategy.
+            .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), onRetry: (response, timespan, retryCount, context) =>
             {
                 logger.LogInformation("Retrying request to users microservice. Attempt {RetryCount}. Waiting {TimeSpan} before next retry", retryCount,
                     timespan);
