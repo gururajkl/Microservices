@@ -21,7 +21,9 @@ public static class DependencyInjection
 
         services.AddScoped<IOrdersService, OrderService>();
 
+        // Register policies for microservice clients.
         services.AddTransient<IUserMicroservicePolicies, UserMicroservicePolicies>();
+        services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
 
         return services;
     }

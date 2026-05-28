@@ -32,21 +32,24 @@ builder.Services.AddControllers();
 #pragma warning disable ASP0000
 var sp = builder.Services.BuildServiceProvider();
 #pragma warning restore ASP0000
-var userMicroservicePolicies = sp.GetRequiredService<IUserMicroservicePolicies>();
+var usersMicroservicePolicies = sp.GetRequiredService<IUserMicroservicePolicies>();
+var productsMicroservicePolicies = sp.GetRequiredService<IProductsMicroservicePolicies>();
 
 builder.Services.AddHttpClient<UsersMicroserviceClient>(config =>
 {
     config.BaseAddress = new Uri($"http://{builder.Configuration["UsersMicroserviceName"]}:{builder.Configuration["UsersMicroservicePort"]}");
 })
 // Add retry policy using Polly to handle transient faults when calling the users microservice.
-.AddPolicyHandler(userMicroservicePolicies.GetRetryPolicy())
+.AddPolicyHandler(usersMicroservicePolicies.GetRetryPolicy())
 // Add circuit breaker policy handler using Polly to the user micorservice client.
-.AddPolicyHandler(userMicroservicePolicies.GetCircuitBreakerPolicy());
+.AddPolicyHandler(usersMicroservicePolicies.GetCircuitBreakerPolicy());
 
 builder.Services.AddHttpClient<ProductsMicroserviceClient>(config =>
 {
     config.BaseAddress = new Uri($"http://{builder.Configuration["ProductsMicroserviceName"]}:{builder.Configuration["ProductsMicroservicePort"]}");
-});
+})
+// Add fallback policy handler using Polly to the products micorservice client.
+.AddPolicyHandler(productsMicroservicePolicies.GetFallbackPolicy());
 
 var app = builder.Build();
 
