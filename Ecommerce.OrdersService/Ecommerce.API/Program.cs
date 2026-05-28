@@ -51,7 +51,9 @@ builder.Services.AddHttpClient<ProductsMicroserviceClient>(config =>
     config.BaseAddress = new Uri($"http://{builder.Configuration["ProductsMicroserviceName"]}:{builder.Configuration["ProductsMicroservicePort"]}");
 })
 // Add fallback policy handler using Polly to the products micorservice client.
-.AddPolicyHandler(productsMicroservicePolicies.GetFallbackPolicy());
+.AddPolicyHandler(productsMicroservicePolicies.GetFallbackPolicy())
+// Add bulkhead isolation policy handler using Polly to the products micorservice client.
+.AddPolicyHandler(productsMicroservicePolicies.GetBulkheadIsolationPolicy());
 
 var app = builder.Build();
 
