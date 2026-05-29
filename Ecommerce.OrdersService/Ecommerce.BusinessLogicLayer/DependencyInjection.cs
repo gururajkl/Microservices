@@ -5,13 +5,14 @@ using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.BusinessLogicLayer.Services;
 using Ecommerce.BusinessLogicLayer.Validators;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ecommerce.BusinessLogicLayer;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services)
+    public static IServiceCollection AddBusinessLogicLayer(this IServiceCollection services, IConfiguration configuration)
     {
         // Add Fluent validation into the pipeline.
         services.AddValidatorsFromAssemblyContaining<OrderAddRequestValidator>();
@@ -25,6 +26,11 @@ public static class DependencyInjection
         services.AddTransient<IUserMicroservicePolicies, UserMicroservicePolicies>();
         services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
         services.AddTransient<IPollyPolicies, PollyPolicies>();
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = $"{configuration["REDIS_HOST"]}:{configuration["REDIS_PORT"]}";
+        });
 
         return services;
     }
