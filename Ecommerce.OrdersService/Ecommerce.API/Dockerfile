@@ -33,4 +33,6 @@ ENV UsersMicroserviceName=localhost
 ENV UsersMicroservicePort=9090
 ENV ProductsMicroserviceName=localhost
 ENV ProductsMicroservicePort=5203
+ENV REDIS_HOST=localhost
+ENV REDIS_PORT=6379
 ENTRYPOINT ["dotnet", "Ecommerce.API.dll"]
