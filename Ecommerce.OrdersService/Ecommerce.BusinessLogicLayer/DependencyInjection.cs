@@ -24,6 +24,7 @@ public static class DependencyInjection
         // Register policies for microservice clients.
         services.AddTransient<IUserMicroservicePolicies, UserMicroservicePolicies>();
         services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
+        services.AddTransient<IPollyPolicies, PollyPolicies>();
 
         return services;
     }
