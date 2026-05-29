@@ -1,19 +1,31 @@
 ﻿using DnsClient.Internal;
 using Ecommerce.BusinessLogicLayer.DTO;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 using Polly.Timeout;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Ecommerce.BusinessLogicLayer.HttpClients;
 
-public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicroserviceClient> logger)
+public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicroserviceClient> logger, IDistributedCache distributedCache)
 {
     public async Task<UserDTO?> GetUserByUserID(Guid userID)
     {
         try
         {
+            string cacheKey = $"user:{userID}";
+
+            string? cachedUser = await distributedCache.GetStringAsync(cacheKey);
+
+            if (cachedUser is not null)
+            {
+                UserDTO? userFromCache = JsonSerializer.Deserialize<UserDTO>(cachedUser);
+                return userFromCache;
+            }
+
             HttpResponseMessage response = await httpClient.GetAsync($"/api/users/{userID}");
 
             if (!response.IsSuccessStatusCode)
@@ -34,6 +46,12 @@ public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicrose
             }
 
             UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
+
+            string userJSON = JsonSerializer.Serialize(user);
+            DistributedCacheEntryOptions options = new DistributedCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20))
+                .SetSlidingExpiration(TimeSpan.FromMinutes(10));
+
+            await distributedCache.SetStringAsync(cacheKey, userJSON, options);
 
             return user is null ? throw new ArgumentException("Invalid user id") : user;
         }
