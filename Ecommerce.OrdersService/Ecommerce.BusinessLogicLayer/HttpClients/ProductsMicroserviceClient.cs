@@ -54,7 +54,7 @@ public class ProductsMicroserviceClient(HttpClient httpClient, ILogger<ProductsM
 
             string productJSONForCache = JsonSerializer.Serialize(product);
             DistributedCacheEntryOptions options = new DistributedCacheEntryOptions()
-                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)).SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(5)).SetSlidingExpiration(TimeSpan.FromSeconds(3));
 
             await distributedCache.SetStringAsync(cachedKey, productJSONForCache, options);
 
