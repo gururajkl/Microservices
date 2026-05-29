@@ -45,6 +45,12 @@ public class ProductsMicroserviceClient(HttpClient httpClient, ILogger<ProductsM
 
             ProductDTO? product = await response.Content.ReadFromJsonAsync<ProductDTO>();
 
+            string productJSONForCache = JsonSerializer.Serialize(product);
+            DistributedCacheEntryOptions options = new DistributedCacheEntryOptions()
+                .SetAbsoluteExpiration(TimeSpan.FromMinutes(10)).SetSlidingExpiration(TimeSpan.FromMinutes(2));
+
+            await distributedCache.SetStringAsync(cachedKey, productJSONForCache, options);
+
             return product is null ? throw new ArgumentException("Invalid product id") : product;
         }
         catch (BulkheadRejectedException ex)
