@@ -90,6 +90,13 @@ services:
       - ../DatabaseQuery/users-init:/docker-entrypoint-initdb.d
     networks:
       - user-postgres-db-network
+  
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-network
 
 networks:
   order-mongo-db-network:
