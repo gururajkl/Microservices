@@ -4,6 +4,7 @@ using Polly;
 using Polly.CircuitBreaker;
 using Polly.Retry;
 using Polly.Timeout;
+using Polly.Wrap;
 
 namespace Ecommerce.BusinessLogicLayer.Policies;
 
@@ -55,5 +56,16 @@ public class UserMicroservicePolicies(ILogger<UserMicroservicePolicies> logger) 
         });
 
         return policy;
+    }
+
+    // I can call this method directly when configuring the HttpClient policies for the users microservice to apply all the policies at once.
+    public IAsyncPolicy<HttpResponseMessage> GetCombinedPolicy()
+    {
+        var retryPolicy = GetRetryPolicy();
+        var circuitBreakerPolicy = GetCircuitBreakerPolicy();
+        var timeoutPolicy = GetTimeoutPolicy();
+
+        AsyncPolicyWrap<HttpResponseMessage> combinedPolicy = Policy.WrapAsync<HttpResponseMessage>(retryPolicy, circuitBreakerPolicy, timeoutPolicy);
+        return combinedPolicy;
     }
 }
