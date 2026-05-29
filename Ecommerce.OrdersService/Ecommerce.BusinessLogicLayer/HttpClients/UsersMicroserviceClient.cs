@@ -45,7 +45,7 @@ public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicrose
                 }
             }
 
-            UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>();
+            UserDTO? user = await response.Content.ReadFromJsonAsync<UserDTO>() ?? throw new ArgumentException("Invalid user id");
 
             string userJSON = JsonSerializer.Serialize(user);
             DistributedCacheEntryOptions options = new DistributedCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(20))
@@ -53,7 +53,7 @@ public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicrose
 
             await distributedCache.SetStringAsync(cacheKey, userJSON, options);
 
-            return user is null ? throw new ArgumentException("Invalid user id") : user;
+            return user;
         }
         catch (BrokenCircuitException ex)
         {
