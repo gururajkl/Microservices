@@ -30,6 +30,11 @@ public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicrose
 
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
+                {
+                    UserDTO? userFromFallback = await response.Content.ReadFromJsonAsync<UserDTO>() ?? throw new ArgumentException("Invalid user id");
+                    return userFromFallback;
+                }
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
                     return null;
