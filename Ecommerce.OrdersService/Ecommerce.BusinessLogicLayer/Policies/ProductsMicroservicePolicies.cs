@@ -21,7 +21,7 @@ internal class ProductsMicroservicePolicies(ILogger<ProductsMicroservicePolicies
 
                 ProductDTO productDTO = new(Guid.Empty, "Temporary Unavailable", "Temporary Unavailable", 0, 0);
 
-                HttpResponseMessage responseMessage = new(HttpStatusCode.OK)
+                HttpResponseMessage responseMessage = new(HttpStatusCode.ServiceUnavailable)
                 {
                     Content = new StringContent(JsonSerializer.Serialize(productDTO), System.Text.Encoding.UTF8, "application/json")
                 };

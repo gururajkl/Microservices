@@ -29,6 +29,13 @@ public class ProductsMicroserviceClient(HttpClient httpClient, ILogger<ProductsM
 
             if (!response.IsSuccessStatusCode)
             {
+                // I'm doing this because i don't want to store fallback values into the cache.
+                if (response.StatusCode == HttpStatusCode.ServiceUnavailable)
+                {
+                    ProductDTO? productFromFallback = await response.Content.ReadFromJsonAsync<ProductDTO>()
+                        ?? throw new NotImplementedException("Service is unavailable and no fallback product provided.");
+                    return productFromFallback;
+                }
                 if (response.StatusCode == HttpStatusCode.NotFound)
                 {
                     return null;
