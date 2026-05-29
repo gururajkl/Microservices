@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
         services.AddTransient<IPollyPolicies, PollyPolicies>();
 
+        // Add Redis cache configuration.
         services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = $"{configuration["REDIS_HOST"]}:{configuration["REDIS_PORT"]}";
