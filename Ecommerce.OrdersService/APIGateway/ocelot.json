@@ -2,7 +2,7 @@
   "Routes": [
     {
       // This routes will be from client to API Gateway.
-      "UpstreamPathTemplate": "/getway/orders",
+      "UpstreamPathTemplate": "/gateway/orders",
       // This routes will be from API Gateway to microservice.
       "DownstreamPathTemplate": "/api/orders",
       "DownstreamHostAndPorts": [
