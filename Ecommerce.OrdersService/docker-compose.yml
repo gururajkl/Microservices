@@ -1,6 +1,6 @@
 services:
-  ecommerce.api:
-    image: ecommerceapi
+  orders-microservice:
+    image: orders-microservice:latest
     build:
       context: .
       dockerfile: Ecommerce.API/Dockerfile
