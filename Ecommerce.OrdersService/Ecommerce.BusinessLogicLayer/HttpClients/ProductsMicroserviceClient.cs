@@ -25,7 +25,7 @@ public class ProductsMicroserviceClient(HttpClient httpClient, ILogger<ProductsM
                 return productFromCache;
             }
 
-            HttpResponseMessage response = await httpClient.GetAsync($"/api/products/search/product-id/{productID}");
+            HttpResponseMessage response = await httpClient.GetAsync($"/gateway/products/search/product-id/{productID}");
 
             if (!response.IsSuccessStatusCode)
             {

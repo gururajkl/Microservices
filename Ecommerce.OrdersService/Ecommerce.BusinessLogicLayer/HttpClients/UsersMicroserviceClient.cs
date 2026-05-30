@@ -26,7 +26,7 @@ public class UsersMicroserviceClient(HttpClient httpClient, ILogger<UsersMicrose
                 return userFromCache;
             }
 
-            HttpResponseMessage response = await httpClient.GetAsync($"/api/users/{userID}");
+            HttpResponseMessage response = await httpClient.GetAsync($"/gateway/users/{userID}");
 
             if (!response.IsSuccessStatusCode)
             {
