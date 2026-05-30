@@ -2,13 +2,14 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
 
 // Add ocelot configuration file.
 builder.Configuration.AddJsonFile("ocelot.json", false, true);
 
 // Add ocelot services to the container.
 builder.Services.AddOcelot();
+
+var app = builder.Build();
 
 app.Run();
 
