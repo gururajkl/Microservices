@@ -59,6 +59,18 @@
       ],
       "UpstreamHttpMethod": [ "Get" ],
       "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/{orderID}",
+      "DownstreamPathTemplate": "/api/orders/{orderID}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orders-microservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamHttpMethod": [ "Put", "Delete", "Options" ],
+      "UpstreamScheme": "http"
     }
   ],
   "GlobalConfiguration": {
