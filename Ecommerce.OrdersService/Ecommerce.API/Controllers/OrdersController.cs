@@ -92,8 +92,8 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
         return CreatedAtAction(nameof(GetOrderByOrderID), new { orderID = response.OrderID }, response);
     }
 
-    [HttpPut]
-    public async Task<ActionResult<OrderResponse?>> UpdateOrder(OrderUpdateRequest request)
+    [HttpPut("{orderID:guid}")]
+    public async Task<ActionResult<OrderResponse?>> UpdateOrder(Guid orderID, OrderUpdateRequest request)
     {
         if (orderUpdateRequestValidator is null)
         {
@@ -103,6 +103,13 @@ public class OrdersController(IOrdersService service, IValidator<OrderAddRequest
         ValidationResult result = await orderUpdateRequestValidator.ValidateAsync(request);
 
         if (!result.IsValid)
+        {
+            return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
+        }
+
+        OrderResponse? orderFromDB = await service.GetOrderByConditionAsync(Builders<Order>.Filter.Eq(o => o.OrderID, orderID));
+
+        if (orderFromDB is null)
         {
             return BadRequest(string.Join(", ", result.Errors.Select(e => e.ErrorMessage)));
         }
