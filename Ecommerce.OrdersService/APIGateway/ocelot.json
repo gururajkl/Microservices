@@ -126,8 +126,8 @@
 
     // Users templates.
     {
-      "UpstreamPathTemplate": "/gateway/Auth/Register/",
-      "DownstreamPathTemplate": "/api/Auth/Register",
+      "UpstreamPathTemplate": "/gateway/auth/register/",
+      "DownstreamPathTemplate": "/api/auth/register",
       "DownstreamHostAndPorts": [
         {
           "Host": "users-microservice",
@@ -138,8 +138,8 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/Auth/Login/",
-      "DownstreamPathTemplate": "/api/Auth/Login",
+      "UpstreamPathTemplate": "/gateway/auth/login/",
+      "DownstreamPathTemplate": "/api/auth/login",
       "DownstreamHostAndPorts": [
         {
           "Host": "users-microservice",
@@ -150,8 +150,8 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/Users/{userID}/",
-      "DownstreamPathTemplate": "/api/Users/{userID}",
+      "UpstreamPathTemplate": "/gateway/users/{userID}/",
+      "DownstreamPathTemplate": "/api/users/{userID}",
       "DownstreamHostAndPorts": [
         {
           "Host": "users-microservice",
