@@ -35,6 +35,30 @@
       ],
       "UpstreamHttpMethod": [ "Get" ],
       "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/search/user-id/{userID}",
+      "DownstreamPathTemplate": "/api/orders/search/user-id/{userID}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orders-microservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/search/orderDate/{orderDate}",
+      "DownstreamPathTemplate": "/api/orders/search/orderDate/{orderDate}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orders-microservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamScheme": "http"
     }
   ],
   "GlobalConfiguration": {
