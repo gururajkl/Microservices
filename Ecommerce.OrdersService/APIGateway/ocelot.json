@@ -2,7 +2,7 @@
   "Routes": [
     // Order templates.
     {
-      "UpstreamPathTemplate": "/gateway/orders", // This routes will be from client to API Gateway.
+      "UpstreamPathTemplate": "/gateway/orders/", // This routes will be from client to API Gateway.
       "DownstreamPathTemplate": "/api/orders", // This routes will be from API Gateway to microservice.
       "DownstreamHostAndPorts": [
         {
@@ -14,7 +14,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/search/order-id/{orderID}",
+      "UpstreamPathTemplate": "/gateway/orders/search/order-id/{orderID}/",
       "DownstreamPathTemplate": "/api/orders/search/order-id/{orderID}",
       "DownstreamHostAndPorts": [
         {
@@ -26,7 +26,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/search/product-id/{productID}",
+      "UpstreamPathTemplate": "/gateway/orders/search/product-id/{productID}/",
       "DownstreamPathTemplate": "/api/orders/search/product-id/{productID}",
       "DownstreamHostAndPorts": [
         {
@@ -38,7 +38,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/search/user-id/{userID}",
+      "UpstreamPathTemplate": "/gateway/orders/search/user-id/{userID}/",
       "DownstreamPathTemplate": "/api/orders/search/user-id/{userID}",
       "DownstreamHostAndPorts": [
         {
@@ -50,7 +50,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/search/orderDate/{orderDate}",
+      "UpstreamPathTemplate": "/gateway/orders/search/orderDate/{orderDate}/",
       "DownstreamPathTemplate": "/api/orders/search/orderDate/{orderDate}",
       "DownstreamHostAndPorts": [
         {
@@ -62,7 +62,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/orders/{orderID}",
+      "UpstreamPathTemplate": "/gateway/orders/{orderID}/",
       "DownstreamPathTemplate": "/api/orders/{orderID}",
       "DownstreamHostAndPorts": [
         {
@@ -76,7 +76,7 @@
 
     // Products templates.
     {
-      "UpstreamPathTemplate": "/gateway/products",
+      "UpstreamPathTemplate": "/gateway/products/",
       "DownstreamPathTemplate": "/api/products",
       "DownstreamHostAndPorts": [
         {
@@ -88,7 +88,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/products/{productID}",
+      "UpstreamPathTemplate": "/gateway/products/{productID}/",
       "DownstreamPathTemplate": "/api/products/{productID}",
       "DownstreamHostAndPorts": [
         {
@@ -100,7 +100,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/products/search/product-id/{productID}",
+      "UpstreamPathTemplate": "/gateway/products/search/product-id/{productID}/",
       "DownstreamPathTemplate": "/api/products/search/product-id/{productID}",
       "DownstreamHostAndPorts": [
         {
@@ -112,7 +112,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/products/search/{searchString}",
+      "UpstreamPathTemplate": "/gateway/products/search/{searchString}/",
       "DownstreamPathTemplate": "/api/products/search/{searchString}",
       "DownstreamHostAndPorts": [
         {
@@ -126,7 +126,7 @@
 
     // Users templates.
     {
-      "UpstreamPathTemplate": "/gateway/Auth/Register",
+      "UpstreamPathTemplate": "/gateway/Auth/Register/",
       "DownstreamPathTemplate": "/api/Auth/Register",
       "DownstreamHostAndPorts": [
         {
@@ -138,7 +138,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/Auth/Login",
+      "UpstreamPathTemplate": "/gateway/Auth/Login/",
       "DownstreamPathTemplate": "/api/Auth/Login",
       "DownstreamHostAndPorts": [
         {
@@ -150,7 +150,7 @@
       "UpstreamScheme": "http"
     },
     {
-      "UpstreamPathTemplate": "/gateway/Users/{userID}",
+      "UpstreamPathTemplate": "/gateway/Users/{userID}/",
       "DownstreamPathTemplate": "/api/Users/{userID}",
       "DownstreamHostAndPorts": [
         {
