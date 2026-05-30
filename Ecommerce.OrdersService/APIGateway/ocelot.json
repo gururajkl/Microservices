@@ -9,7 +9,7 @@
           "Port": 8080
         }
       ],
-      "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Options" ], // Browser will make OPTIONS request only if it's posting or putting to the server.
       "UpstreamScheme": "http"
     },
     {
