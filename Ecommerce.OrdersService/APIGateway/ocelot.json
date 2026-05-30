@@ -1,10 +1,8 @@
 {
   "Routes": [
     {
-      // This routes will be from client to API Gateway.
-      "UpstreamPathTemplate": "/gateway/orders",
-      // This routes will be from API Gateway to microservice.
-      "DownstreamPathTemplate": "/api/orders",
+      "UpstreamPathTemplate": "/gateway/orders", // This routes will be from client to API Gateway.
+      "DownstreamPathTemplate": "/api/orders", // This routes will be from API Gateway to microservice.
       "DownstreamHostAndPorts": [
         {
           "Host": "orders-microservice",
@@ -12,6 +10,30 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Options" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/search/order-id/{orderID}",
+      "DownstreamPathTemplate": "/api/orders/search/order-id/{orderID}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orders-microservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/orders/search/product-id/{productID}",
+      "DownstreamPathTemplate": "/api/orders/search/product-id/{productID}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "orders-microservice",
+          "Port": 8080
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get" ],
       "UpstreamScheme": "http"
     }
   ],
