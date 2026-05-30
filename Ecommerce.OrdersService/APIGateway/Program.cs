@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 // Add ocelot configuration file.
-builder.Configuration.AddJsonFile("oclot.json", false, true);
+builder.Configuration.AddJsonFile("ocelot.json", false, true);
 
 // Add ocelot services to the container.
 builder.Services.AddOcelot();
