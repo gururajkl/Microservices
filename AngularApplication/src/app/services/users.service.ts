@@ -10,6 +10,7 @@ import { environment } from '../../environment';
 })
 export class UsersService {
   private usersAPIURL: string = environment.usersAPIURL;
+  private authAPIURL: string = environment.authAPIURL;
 
   public isAuthenticated: boolean = false;
   public isAdmin: boolean = false;
@@ -27,7 +28,7 @@ export class UsersService {
   }
 
   register(register: Register): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(`${this.usersAPIURL}auth/register`, register);
+    return this.http.post<AuthenticationResponse>(`${this.authAPIURL}register`, register);
   }
 
   login(email: string, password: string): Observable<AuthenticationResponse> {
@@ -45,7 +46,7 @@ export class UsersService {
 
       return of(adminUser);
     } else {
-      return this.http.post<AuthenticationResponse>(`${this.usersAPIURL}auth/login`, { email, password });
+      return this.http.post<AuthenticationResponse>(`${this.authAPIURL}login`, { email, password });
     }
   }
 
