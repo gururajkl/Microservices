@@ -122,6 +122,44 @@
       ],
       "UpstreamHttpMethod": [ "Get" ],
       "UpstreamScheme": "http"
+    },
+
+    // Users templates.
+    {
+      "UpstreamPathTemplate": "/gateway/Auth/Register",
+      "DownstreamPathTemplate": "/api/Auth/Register",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "users-microservice",
+          "Port": 9090
+        }
+      ],
+      "UpstreamHttpMethod": [ "Post", "Options" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/Auth/Login",
+      "DownstreamPathTemplate": "/api/Auth/Login",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "users-microservice",
+          "Port": 9090
+        }
+      ],
+      "UpstreamHttpMethod": [ "Post", "Options" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/Users/{userID}",
+      "DownstreamPathTemplate": "/api/Users/{userID}",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "users-microservice",
+          "Port": 9090
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamScheme": "http"
     }
   ],
   "GlobalConfiguration": {
