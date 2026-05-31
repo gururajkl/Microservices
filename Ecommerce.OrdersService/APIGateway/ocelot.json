@@ -85,7 +85,16 @@
         }
       ],
       "UpstreamHttpMethod": [ "Put", "Post", "Get", "Options" ],
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 10000,
+        "TimeoutValue": 5000
+      },
+      "RetryOptions": {
+        "RetryCount": 3,
+        "RetryOnServerError": true
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/products/{productID}/",
