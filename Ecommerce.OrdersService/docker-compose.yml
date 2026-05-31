@@ -46,6 +46,10 @@ services:
       - MYSQL_Password=admin
       - MYSQL_DATABASE=ecommerceproductsdatabase
       - MYSQL_USER=root
+      - RABBITMQ_HostName=rabbitmq
+      - RABBITMQ_Port=5672
+      - RABBITMQ_UserName=user
+      - RABBITMQ_Password=password
     ports:
       - "6001:8080"
     networks:
