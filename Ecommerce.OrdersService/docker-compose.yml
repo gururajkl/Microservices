@@ -16,6 +16,10 @@ services:
       - ProductsMicroservicePort=8080
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_HostName=rabbitmq
+      - RABBITMQ_Port=5672
+      - RABBITMQ_UserName=user
+      - RABBITMQ_Password=password
     networks:
       - order-mongo-db-network
       - ecommerce-network
