@@ -110,7 +110,7 @@ services:
      networks:
        - ecommerce-network
 
-  rabbitMq:
+  rabbitmq:
      image: rabbitmq:3.13-management
      ports:
        - "5672:5672"
