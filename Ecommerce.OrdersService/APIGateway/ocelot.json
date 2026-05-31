@@ -11,7 +11,10 @@
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Options" ], // Browser will make OPTIONS request only if it's posting or putting to the server.
-      "UpstreamScheme": "http"
+      "UpstreamScheme": "http",
+      "FileCacheOptions": {
+        "TtlSeconds": 5
+      }
     },
     {
       "UpstreamPathTemplate": "/gateway/orders/search/order-id/{orderID}/",
