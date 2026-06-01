@@ -1,6 +1,7 @@
 ﻿using Ecommerce.BusinessLogicLayer.Mappers;
 using Ecommerce.BusinessLogicLayer.Policies;
 using Ecommerce.BusinessLogicLayer.Policies.Contracts;
+using Ecommerce.BusinessLogicLayer.RabbitMQ;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.BusinessLogicLayer.Services;
 using Ecommerce.BusinessLogicLayer.Validators;
@@ -26,6 +27,7 @@ public static class DependencyInjection
         services.AddTransient<IUserMicroservicePolicies, UserMicroservicePolicies>();
         services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
         services.AddTransient<IPollyPolicies, PollyPolicies>();
+        services.AddTransient<IRabbitMQProductNameUpdateConsumer, RabbitMQProductNameUpdateConsumer>();
 
         // Add Redis cache configuration.
         services.AddStackExchangeRedisCache(options =>
