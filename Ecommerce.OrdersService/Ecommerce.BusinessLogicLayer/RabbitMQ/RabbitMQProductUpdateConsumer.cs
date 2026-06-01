@@ -79,6 +79,7 @@ public class RabbitMQProductUpdateConsumer : IDisposable, IRabbitMQProductNameUp
 
     private async Task HandleProductUpdate(ProductUpdateMessage message)
     {
+        _logger.LogInformation("Received product update message for ProductID: {ProductID}", message.ProductID);
         string cachedKey = $"product:{message.ProductID}";
         DistributedCacheEntryOptions options = new DistributedCacheEntryOptions()
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(5)).SetSlidingExpiration(TimeSpan.FromSeconds(3));
