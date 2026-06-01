@@ -10,6 +10,8 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Ecommerce.API/Ecommerce.API.csproj", "Ecommerce.API/"]
+COPY ["Ecommerce.BusinessLogicLayer/Ecommerce.BusinessLogicLayer.csproj", "Ecommerce.BusinessLogicLayer/"]
+COPY ["Ecommerce.DataAccessLayer/Ecommerce.DataAccessLayer.csproj", "Ecommerce.DataAccessLayer/"]
 RUN dotnet restore "./Ecommerce.API/Ecommerce.API.csproj"
 COPY . .
 WORKDIR "/src/Ecommerce.API"
