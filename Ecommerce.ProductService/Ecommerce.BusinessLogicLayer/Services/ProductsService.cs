@@ -7,13 +7,14 @@ using Ecommerce.DataAccessLayer.Entities;
 using Ecommerce.DataAccessLayer.RepositoryContracts;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
 namespace Ecommerce.BusinessLogicLayer.Services;
 
 internal class ProductsService(IProductsRepository repository, IMapper mapper,
     IValidator<ProductAddRequest> addRequestValidator, IValidator<ProductUpdateRequest> updateRequestValidator,
-    IRabbitMQPublisher rabbitMqPublisher) : IProductsService
+    IRabbitMQPublisher rabbitMqPublisher, ILogger<ProductsService> logger) : IProductsService
 {
     public async Task<ProductResponse?> AddProductAsync(ProductAddRequest productAddRequest)
     {
@@ -50,6 +51,7 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
             string rountingKey = "product.delete";
             ProductDeleteMessage message = new(productInDb.ProductID, productInDb.ProductName);
             rabbitMqPublisher.Publish(rountingKey, message);
+            logger.LogInformation("Published product deletion message for ProductID: {ProductID}", productID);
         }
 
         return result;
