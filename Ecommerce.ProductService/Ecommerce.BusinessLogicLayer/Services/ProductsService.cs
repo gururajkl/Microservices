@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.BusinessLogicLayer.DTO;
+using Ecommerce.BusinessLogicLayer.RabbitMQ;
+using Ecommerce.BusinessLogicLayer.RabbitMQ.MessageTypes;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.DataAccessLayer.Entities;
 using Ecommerce.DataAccessLayer.RepositoryContracts;
@@ -10,7 +12,8 @@ using System.Linq.Expressions;
 namespace Ecommerce.BusinessLogicLayer.Services;
 
 internal class ProductsService(IProductsRepository repository, IMapper mapper,
-    IValidator<ProductAddRequest> addRequestValidator, IValidator<ProductUpdateRequest> updateRequestValidator) : IProductsService
+    IValidator<ProductAddRequest> addRequestValidator, IValidator<ProductUpdateRequest> updateRequestValidator,
+    IRabbitMQPublisher publisher) : IProductsService
 {
     public async Task<ProductResponse?> AddProductAsync(ProductAddRequest productAddRequest)
     {
@@ -87,7 +90,18 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
 
         Product productToUpdate = mapper.Map<Product>(productUpdateRequest);
 
+        // Check if the product name has changed.
+        bool isProductNameChanged = productUpdateRequest.ProductName != existingProduct.ProductName;
+
         Product? updatedProduct = await repository.UpdateProductAsync(productToUpdate);
+
+        if (isProductNameChanged)
+        {
+            // Publish a message to RabbitMQ about the product name update.
+            string routingKey = "product.update.name";
+            ProductNameUpdateMessage message = new(productUpdateRequest.ProductID, productUpdateRequest.ProductName);
+            publisher.Publish<ProductNameUpdateMessage>(routingKey, message);
+        }
 
         if (updatedProduct is null) return null;
 
