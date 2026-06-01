@@ -1,0 +1,6 @@
+﻿namespace Ecommerce.BusinessLogicLayer.RabbitMQ;
+
+public interface IRabbitMQProductNameUpdateConsumer
+{
+    void Consume();
+}
