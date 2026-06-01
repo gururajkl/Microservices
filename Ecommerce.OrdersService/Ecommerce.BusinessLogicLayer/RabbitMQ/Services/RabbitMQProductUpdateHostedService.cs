@@ -5,8 +5,8 @@ namespace Ecommerce.BusinessLogicLayer.RabbitMQ.Services;
 /// <summary>
 /// Hosted service that starts the RabbitMQ consumer for product name updates when the application starts and stops.
 /// </summary>
-/// <param name="consumer"><see cref="RabbitMQProductNameUpdateConsumer"/> which consumes the specified messages from RabbitMQ.</param>
-public class RabbitMQProductNameUpdateHostedService(IRabbitMQProductNameUpdateConsumer consumer) : IHostedService
+/// <param name="consumer"><see cref="RabbitMQProductUpdateConsumer"/> which consumes the specified messages from RabbitMQ.</param>
+public class RabbitMQProductUpdateHostedService(IRabbitMQProductNameUpdateConsumer consumer) : IHostedService
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -16,7 +16,7 @@ public class RabbitMQProductNameUpdateHostedService(IRabbitMQProductNameUpdateCo
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        (consumer as RabbitMQProductNameUpdateConsumer)?.Dispose();
+        (consumer as RabbitMQProductUpdateConsumer)?.Dispose();
         return Task.CompletedTask;
     }
 }

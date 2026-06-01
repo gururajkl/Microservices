@@ -9,15 +9,15 @@ using System.Text.Json;
 
 namespace Ecommerce.BusinessLogicLayer.RabbitMQ;
 
-public class RabbitMQProductNameUpdateConsumer : IDisposable, IRabbitMQProductNameUpdateConsumer
+public class RabbitMQProductUpdateConsumer : IDisposable, IRabbitMQProductNameUpdateConsumer
 {
     private readonly IConfiguration _configuration;
     private readonly IModel _channel;
     private readonly IConnection _connection;
-    private readonly ILogger<RabbitMQProductNameUpdateConsumer> _logger;
+    private readonly ILogger<RabbitMQProductUpdateConsumer> _logger;
     private readonly IDistributedCache _cache;
 
-    public RabbitMQProductNameUpdateConsumer(IConfiguration configuration, ILogger<RabbitMQProductNameUpdateConsumer> logger, IDistributedCache cache)
+    public RabbitMQProductUpdateConsumer(IConfiguration configuration, ILogger<RabbitMQProductUpdateConsumer> logger, IDistributedCache cache)
     {
         _configuration = configuration;
         _logger = logger;

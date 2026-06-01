@@ -28,7 +28,7 @@ public static class DependencyInjection
         services.AddTransient<IUserMicroservicePolicies, UserMicroservicePolicies>();
         services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
         services.AddTransient<IPollyPolicies, PollyPolicies>();
-        services.AddTransient<IRabbitMQProductNameUpdateConsumer, RabbitMQProductNameUpdateConsumer>();
+        services.AddTransient<IRabbitMQProductNameUpdateConsumer, RabbitMQProductUpdateConsumer>();
         services.AddTransient<IRabbitMQProductDeleteConsumer, RabbitMQProductDeleteConsumer>();
 
         // Add Redis cache configuration.
@@ -37,7 +37,7 @@ public static class DependencyInjection
             options.Configuration = $"{configuration["REDIS_HOST"]}:{configuration["REDIS_PORT"]}";
         });
 
-        services.AddHostedService<RabbitMQProductNameUpdateHostedService>();
+        services.AddHostedService<RabbitMQProductUpdateHostedService>();
         services.AddHostedService<RabbitMQProductDeleteHostedService>();
 
         return services;
