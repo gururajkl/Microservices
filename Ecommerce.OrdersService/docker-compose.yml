@@ -20,6 +20,7 @@ services:
       - RABBITMQ_Port=5672
       - RABBITMQ_UserName=user
       - RABBITMQ_Password=password
+      - RABBITMQ_Products_Exchange=products.exchange
     networks:
       - order-mongo-db-network
       - ecommerce-network
@@ -50,6 +51,7 @@ services:
       - RABBITMQ_Port=5672
       - RABBITMQ_UserName=user
       - RABBITMQ_Password=password
+      - RABBITMQ_Products_Exchange=products.exchange
     ports:
       - "6001:8080"
     networks:
