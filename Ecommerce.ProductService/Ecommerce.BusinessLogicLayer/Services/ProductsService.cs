@@ -13,7 +13,7 @@ namespace Ecommerce.BusinessLogicLayer.Services;
 
 internal class ProductsService(IProductsRepository repository, IMapper mapper,
     IValidator<ProductAddRequest> addRequestValidator, IValidator<ProductUpdateRequest> updateRequestValidator,
-    IRabbitMQPublisher publisher) : IProductsService
+    IRabbitMQPublisher rabbitMqPublisher) : IProductsService
 {
     public async Task<ProductResponse?> AddProductAsync(ProductAddRequest productAddRequest)
     {
@@ -43,6 +43,15 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
         if (productInDb is null) return false;
 
         bool result = await repository.DeleteProductAsync(productID);
+
+        if (result)
+        {
+            // Publish a message to RabbitMQ about the product deletion.
+            string rountingKey = "product.delete";
+            ProductDeleteMessage message = new(productInDb.ProductID, productInDb.ProductName);
+            rabbitMqPublisher.Publish(rountingKey, message);
+        }
+
         return result;
     }
 
@@ -100,7 +109,7 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
             // Publish a message to RabbitMQ about the product name update.
             string routingKey = "product.update.name";
             ProductNameUpdateMessage message = new(productUpdateRequest.ProductID, productUpdateRequest.ProductName);
-            publisher.Publish<ProductNameUpdateMessage>(routingKey, message);
+            rabbitMqPublisher.Publish<ProductNameUpdateMessage>(routingKey, message);
         }
 
         if (updatedProduct is null) return null;
