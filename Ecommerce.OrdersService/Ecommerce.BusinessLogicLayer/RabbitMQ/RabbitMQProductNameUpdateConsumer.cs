@@ -1,5 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ecommerce.BusinessLogicLayer.RabbitMQ.MessageTypes;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
+using System.Text.Json;
 
 namespace Ecommerce.BusinessLogicLayer.RabbitMQ;
 
@@ -8,10 +13,12 @@ public class RabbitMQProductNameUpdateConsumer : IDisposable, IRabbitMQProductNa
     private readonly IConfiguration _configuration;
     private readonly IModel _channel;
     private readonly IConnection _connection;
+    private readonly ILogger<RabbitMQProductNameUpdateConsumer> _logger;
 
-    public RabbitMQProductNameUpdateConsumer(IConfiguration configuration)
+    public RabbitMQProductNameUpdateConsumer(IConfiguration configuration, ILogger<RabbitMQProductNameUpdateConsumer> logger)
     {
         _configuration = configuration;
+        _logger = logger;
 
         string hostName = _configuration["RABBITMQ_HostName"]!;
         string port = _configuration["RABBITMQ_Port"]!;
@@ -46,6 +53,20 @@ public class RabbitMQProductNameUpdateConsumer : IDisposable, IRabbitMQProductNa
 
         // Bind the queue to the exchange with the routing key.
         _channel.QueueBind(queueName, exchangeName, routingKey);
+
+        EventingBasicConsumer consumer = new EventingBasicConsumer(_channel);
+
+        consumer.Received += (sender, args) =>
+        {
+            byte[] body = args.Body.ToArray();
+            string stringMessage = Encoding.UTF8.GetString(body);
+            ProductNameUpdateMessage message = JsonSerializer.Deserialize<ProductNameUpdateMessage>(stringMessage)!;
+
+            _logger.LogInformation("Received ProductNameUpdateMessage: ProductID={ProductID}, NewProductName={NewProductName}",
+                message.ProductID, message.NewProductName);
+        };
+
+        _channel.BasicConsume(queueName, true, consumer);
     }
 
     public void Dispose()
