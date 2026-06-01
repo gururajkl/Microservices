@@ -2,6 +2,7 @@
 using Ecommerce.BusinessLogicLayer.Policies;
 using Ecommerce.BusinessLogicLayer.Policies.Contracts;
 using Ecommerce.BusinessLogicLayer.RabbitMQ;
+using Ecommerce.BusinessLogicLayer.RabbitMQ.Services;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.BusinessLogicLayer.Services;
 using Ecommerce.BusinessLogicLayer.Validators;
@@ -34,6 +35,8 @@ public static class DependencyInjection
         {
             options.Configuration = $"{configuration["REDIS_HOST"]}:{configuration["REDIS_PORT"]}";
         });
+
+        services.AddHostedService<RabbitMQProductNameUpdateHostedService>();
 
         return services;
     }
