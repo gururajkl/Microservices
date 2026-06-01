@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddTransient<IProductsMicroservicePolicies, ProductsMicroservicePolicies>();
         services.AddTransient<IPollyPolicies, PollyPolicies>();
         services.AddTransient<IRabbitMQProductNameUpdateConsumer, RabbitMQProductNameUpdateConsumer>();
+        services.AddTransient<IRabbitMQProductDeleteConsumer, RabbitMQProductDeleteConsumer>();
 
         // Add Redis cache configuration.
         services.AddStackExchangeRedisCache(options =>
@@ -37,6 +38,7 @@ public static class DependencyInjection
         });
 
         services.AddHostedService<RabbitMQProductNameUpdateHostedService>();
+        services.AddHostedService<RabbitMQProductDeleteHostedService>();
 
         return services;
     }
