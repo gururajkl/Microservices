@@ -101,18 +101,14 @@ internal class ProductsService(IProductsRepository repository, IMapper mapper,
 
         Product productToUpdate = mapper.Map<Product>(productUpdateRequest);
 
-        // Check if the product name has changed.
-        bool isProductNameChanged = productUpdateRequest.ProductName != existingProduct.ProductName;
-
         Product? updatedProduct = await repository.UpdateProductAsync(productToUpdate);
 
-        if (isProductNameChanged)
-        {
-            // Publish a message to RabbitMQ about the product name update.
-            string routingKey = "product.update.name";
-            ProductNameUpdateMessage message = new(productUpdateRequest.ProductID, productUpdateRequest.ProductName);
-            rabbitMqPublisher.Publish<ProductNameUpdateMessage>(routingKey, message);
-        }
+        // Publish a message to RabbitMQ about the product update.
+        string routingKey = "product.update";
+        ProductUpdateMessage message = new(productUpdateRequest.ProductID, productUpdateRequest.ProductName,
+            productToUpdate.Category, productUpdateRequest.UnitPrice, productToUpdate.QuantityInStock);
+
+        rabbitMqPublisher.Publish<ProductUpdateMessage>(routingKey, message);
 
         if (updatedProduct is null) return null;
 
