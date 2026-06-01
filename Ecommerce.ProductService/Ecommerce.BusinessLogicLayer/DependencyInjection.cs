@@ -1,4 +1,5 @@
 ﻿using Ecommerce.BusinessLogicLayer.Mappers;
+using Ecommerce.BusinessLogicLayer.RabbitMQ;
 using Ecommerce.BusinessLogicLayer.ServiceContracts;
 using Ecommerce.BusinessLogicLayer.Services;
 using Ecommerce.BusinessLogicLayer.Validators;
@@ -14,6 +15,9 @@ public static class DependencyInjection
         services.AddScoped<IProductsService, ProductsService>();
         services.AddValidatorsFromAssemblyContaining<ProductAddRequestValidator>();
         services.AddAutoMapper(config => { }, typeof(ProductToProductResponseMappingProfile).Assembly);
+
+        // Register RabbitMQPublisher as a transient service.
+        services.AddTransient<IRabbitMQPublisher, RabbitMQPublisher>();
 
         return services;
     }
