@@ -8,8 +8,8 @@ namespace Ecommerce.BusinessLogicLayer.RabbitMQ;
 public class RabbitMQPublisher : IRabbitMQPublisher, IDisposable
 {
     private readonly IConfiguration _configuration;
-    private IModel _channel;
-    private IConnection _connection;
+    private readonly IModel _channel;
+    private readonly IConnection _connection;
 
     public RabbitMQPublisher(IConfiguration configuration)
     {
@@ -34,7 +34,8 @@ public class RabbitMQPublisher : IRabbitMQPublisher, IDisposable
 
     public void Publish<T>(string routingKey, T message)
     {
-        string exchangeName = "products.exchange";
+        // Getting the exchange name from the configuration.
+        string exchangeName = _configuration["RABBITMQ_Products_Exchange"]!;
 
         // RabbitMQ cannot send complex objects, so we need to serialize the message to JSON and then convert it to bytes.
         string messageInJSON = JsonSerializer.Serialize(message);
