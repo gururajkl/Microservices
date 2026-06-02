@@ -1,3 +1,5 @@
 * az group create --name demo-name --location eastus: Create resource group.
 
 * az group list: Lists the groups in the subscription.
+
+* az acr create --resource-group demo-resource-group --name gururajcontainerregistry --sku Basic: To create azure container registry.
