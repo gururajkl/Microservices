@@ -3,3 +3,21 @@
 * az group list: Lists the groups in the subscription.
 
 * az acr create --resource-group demo-resource-group --name gururajcontainerregistry --sku Basic: To create azure container registry.
+
+* az appservice plan create --name demo-service-plan --resource-group demo-resource-group --sku B1 --is-Linux: To create app service
+
+* az appservice plan list --resource-group demo-resource-group: To see list of app service plans in that group.
+
+* az webapp create --resource-group demo-resource-group --plan demo-service-plan --name gururajdemowebapiapp --runtime "DOTNETCORE:10.0": To create webapp in azure.
+
+* az webapp list --resource-group demo-resource-group: To see webapps list in that resource group.
+
+* az acr login --name gururajcontainerresgistry --resource-group demo-resource-group: Login to the specific azure container registry.
+
+* az acr list: To see azure containers.
+
+* az webapp config container set --name gururajdemowebapiapp --resource-group demo-resource-group --container-image-name gururajcontainerregistry.azurecr.io/demowebapp:latest: mapping image to the container.
+
+* az webapp log download --name gururajdemowebapiapp --resource-group demo-resource-group --log-file logs.zip: To download logs from the webapp.
+
+* az webapp config appsettings set --resource-group demo-resource-group --name gururajwebapiapp --settings ASPNETCORE_ENVIRONMENT=Development: To set environment to the webapp. 
