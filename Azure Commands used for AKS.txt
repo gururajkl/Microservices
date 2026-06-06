@@ -28,3 +28,18 @@ So first I need to create a resource group in azure using the below command:
 
 7. To confirm if the credentials are saved run the below command:
 >> kubectl cluster-info
+
+8. Now go to demo weather app created earlier and create yaml file and add settings and configurations
+
+9. Before running the yaml file make sure the web app container and image is pushed into the gjecommerceregistry using below command:
+Before pushing the image first I need to login into the container registry using below command:
+>> az acr login --name gjecommerceregistry
+Once login done I need build the docker file using the below command:
+>> docker build -t demowebapp:latest -f ./DemoWebApplication/Dockerfile .
+Once docker image build is done, i need to tag the local image to azure container registry path using the below command:
+>> docker tag demowebapp:latest gjecommerceregistry.azurecr.io/demowebapp:latest
+After tagging done push the image into the azure container registry using below command:
+>> docker push gjecommerceregistry.azurecr.io/demowebapp:latest
+
+10. Once image is pushed i need to attach the container registry to the cluster using below command:
+>> az aks update --resource-group ecommerce-resource-group --name ecommerce-aks-cluster --attach-acr gjecommerceregistry
