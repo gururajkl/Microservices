@@ -24,7 +24,7 @@ services:
   postgres-container:
     image: ecommerce-postgres:latest
     build:
-      context: /PostgreSql
+      context: /Postgres
       dockerfile: /Dockerfile
     ports:
       - "5432:5432"
@@ -39,6 +39,14 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+    networks:
+      - ecommerce-network
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - ecommerce-network
 
