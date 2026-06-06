@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
@@ -19,6 +20,11 @@ public class RabbitMQPublisher : IRabbitMQPublisher, IDisposable
         string port = _configuration["RABBITMQ_Port"]!;
         string userName = _configuration["RABBITMQ_UserName"]!;
         string password = _configuration["RABBITMQ_Password"]!;
+
+        Console.WriteLine($"RabbitMQ HostName: {hostName}");
+        Console.WriteLine($"RabbitMQ Port: {port}");
+        Console.WriteLine($"RabbitMQ UserName: {userName}");
+        Console.WriteLine($"RabbitMQ Password: {password}");
 
         ConnectionFactory connectionFactory = new ConnectionFactory()
         {
