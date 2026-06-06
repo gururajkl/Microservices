@@ -19,3 +19,12 @@ So first I need to create a resource group in azure using the below command:
 >> az provider register --namespace Microsoft.OperationsManagement --wait [Handles operations management solutions, like Azure Automation]
 >> az provider register --namespace Microsoft.Authorization --wait [Manages access control (RBAC) and policy settings for resources]
 >> az provider register --namespace Microsoft.Storage --wait [Manages Azure Storage services like blobs, files, and queues]
+
+5. After registering providers, next job is to create AKS clusters using the below command:
+>> az aks create --resource-group ecommerce-resource-group --name ecommerce-aks-cluster --node-count 1 --node-vm-size Standard_B2s --enable-addons monitoring --generate-ssh-keys
+
+6. As a next step I need to get aks credentials and save locally using below command:
+>> az aks get-credentials --resource-group ecommerce-resource-group --name ecommerce-aks-cluster
+
+7. To confirm if the credentials are saved run the below command:
+>> kubectl cluster-info
