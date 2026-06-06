@@ -1,0 +1,8 @@
+1. As a first step login to azure using the below command:
+>> az login
+So this command will ask mail and password enter the same and do login
+After login select the required subscription and start coding.
+
+2. In azure to create any services those services should be under a resource group.
+So first I need to create a resource group in azure using the below command:
+>> az group create --name ecommerce-resource-group --location "South India"
