@@ -49,3 +49,13 @@ After tagging done push the image into the azure container registry using below 
 
 12. To see list of deployment run the below command:
 >> kubectl get deployments
+
+13. To see list of Pods created after deployment run the below command:
+>> kubectl get pods
+
+14. To call the container apps in the pods i need to have the service exposed and created using the below commands:
+Create service.yaml file and include all the required settings.
+>> kubectl apply -f service.yaml
+
+15. Once services are applied to see list of service applied use below commands:
+>> kubectl get services
