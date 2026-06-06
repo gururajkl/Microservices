@@ -59,3 +59,27 @@ Create service.yaml file and include all the required settings.
 
 15. Once services are applied to see list of service applied use below commands:
 >> kubectl get services
+
+16. After the above steps create docker-compose.build.yaml file and build the yaml file using below command:
+>> docker-compose -f docker-compose.build.yaml build
+
+17. After the above step i need to tag all the local images with remote tag using below command:
+>> docker tag orders-microservice:latest gjecommerceregistry.azurecr.io/orders-microservice:latest
+>> docker tag products-microservice:latest gjecommerceregistry.azurecr.io/products-microservice:latest
+>> docker tag users-microservice:latest gjecommerceregistry.azurecr.io/users-microservice:latest
+>> docker tag apigateway:latest gjecommerceregistry.azurecr.io/apigateway:latest
+>> docker tag ecommerce-mysql:latest gjecommerceregistry.azurecr.io/ecommerce-mysql:latest
+>> docker tag ecommerce-postgres:latest gjecommerceregistry.azurecr.io/ecommerce-postgres:latest
+>> docker tag ecommerce-mongodb:latest gjecommerceregistry.azurecr.io/ecommerce-mongodb:latest
+
+18. After tagging I need to push all the images to the container.
+>> az acr login --name gjecommerceregistry
+>> docker push gjecommerceregistry.azurecr.io/orders-microservice:latest
+>> docker push gjecommerceregistry.azurecr.io/products-microservice:latest
+>> docker push gjecommerceregistry.azurecr.io/users-microservice:latest
+>> docker push gjecommerceregistry.azurecr.io/ecommerce-mysql:latest
+>> docker push gjecommerceregistry.azurecr.io/ecommerce-postgres:latest
+>> docker push gjecommerceregistry.azurecr.io/ecommerce-mongodb:latest
+>> docker push gjecommerceregistry.azurecr.io/apigateway:latest
+
+
