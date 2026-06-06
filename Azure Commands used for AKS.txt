@@ -9,3 +9,13 @@ So first I need to create a resource group in azure using the below command:
 
 3. Once the group is created the next job is to create azure container registry (acr) using below command:
 >> az acr create --resource-group ecommerce-resource-group --name gjecommerceregistry --sku Basic
+
+4. To work with AKS (Azure Kubernetes Service) we need to register some providers, register the below providers using the below commands.
+>> az provider register --namespace Microsoft.Insights --wait [Enables monitoring and diagnostics for Azure resources]
+>> az provider register --namespace Microsoft.OperationalInsights --wait [Supports Log Analytics for operational data monitoring]
+>> az provider register --namespace Microsoft.ContainerService --wait [Manages Azure Kubernetes Service (AKS) and container workloads]
+>> az provider register --namespace Microsoft.Network --wait [Provides network-related services like VNETs, Load Balancers, and VPNs]
+>> az provider register --namespace Microsoft.Compute --wait [Manages virtual machines, scale sets, and related compute resources]
+>> az provider register --namespace Microsoft.OperationsManagement --wait [Handles operations management solutions, like Azure Automation]
+>> az provider register --namespace Microsoft.Authorization --wait [Manages access control (RBAC) and policy settings for resources]
+>> az provider register --namespace Microsoft.Storage --wait [Manages Azure Storage services like blobs, files, and queues]
