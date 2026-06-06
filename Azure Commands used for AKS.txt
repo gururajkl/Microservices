@@ -43,3 +43,9 @@ After tagging done push the image into the azure container registry using below 
 
 10. Once image is pushed i need to attach the container registry to the cluster using below command:
 >> az aks update --resource-group ecommerce-resource-group --name ecommerce-aks-cluster --attach-acr gjecommerceregistry
+
+11. Now it's time to use yaml file, navigate to the path of yaml file and run the below command:
+>> kubectl apply -f deployment.yaml
+
+12. To see list of deployment run the below command:
+>> kubectl get deployments
