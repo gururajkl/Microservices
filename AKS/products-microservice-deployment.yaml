@@ -34,7 +34,7 @@ spec:
         - name: MYSQL_PASSWORD
           value: admin
         - name: RabbitMQ_HostName
-          value: rabbitmq
+          value: rabbitmqsvc
         - name: RabbitMQ_Port
           value: "5672"
         - name: RabbitMQ_UserName

@@ -42,7 +42,7 @@ spec:
         - name: REDIS_PORT
           value: "6379"
         - name: RabbitMQ_HostName
-          value: rabbitmq
+          value: rabbitmqsvc
         - name: RabbitMQ_Port
           value: "5672"
         - name: RabbitMQ_UserName
