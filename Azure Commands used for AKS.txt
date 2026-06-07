@@ -82,4 +82,9 @@ Create service.yaml file and include all the required settings.
 >> docker push gjecommerceregistry.azurecr.io/ecommerce-mongodb:latest
 >> docker push gjecommerceregistry.azurecr.io/apigateway:latest
 
-
+19. After the above step i need to create manifest yaml and deploy the yaml file using below command:
+Inside the AKS folder create deployment.yaml file for all the services i have.
+Now create the new namespace using the below command:
+>> kubectl create namespace ecommerce-namespace
+And after that apply the deployment.yaml file using the below command:
+>> kubectl apply -f . [All files will be taken here]
