@@ -88,3 +88,5 @@ Now create the new namespace using the below command:
 >> kubectl create namespace ecommerce-namespace
 And after that apply the deployment.yaml file using the below command:
 >> kubectl apply -f . [All files will be taken here]
+And after creating the deployment.yaml now i need to create service.yaml file for all the services i have and apply the same using below command:
+>> kubectl apply -f . [All files will be taken here]

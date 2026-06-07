@@ -23,7 +23,7 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: Development
-        - name: MYSQL_HOST
+        - name: MYSQL_HOSTNAME
           value: mysql
         - name: MYSQL_PORT
           value: "3306"
