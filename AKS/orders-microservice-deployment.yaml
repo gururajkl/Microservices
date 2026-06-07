@@ -23,9 +23,9 @@ spec:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: Development
-        - name: MONGODB_HOST
+        - name: MONGO_HOST
           value: mongodb
-        - name: MONGODB_PORT
+        - name: MONGO_PORT
           value: "27017"
         - name: MONGODB_DATABASE
           value: OrdersDatabase

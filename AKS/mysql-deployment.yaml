@@ -18,6 +18,8 @@ spec:
       containers:
       - name: mysql
         image: gjecommerceregistry.azurecr.io/ecommerce-mysql:latest
+        args:
+          - "--lower_case_table_names=1"
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: admin
