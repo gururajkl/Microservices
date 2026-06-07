@@ -1,0 +1,10 @@
+1. First go to internet and search for "Azure DevOps" and click on the first link that appears in the search results and create account or login.
+
+2. After login, my first job is to create organization. To do that click on "New organization" and then fill the required details and click on "Continue".
+
+3. Then within that organization i need to create a project, Click create project and call it Ecommerce and click on "Create".
+
+4. By default azure devops Parallelism are disabled, 
+so to enable it go to this link: 
+https://forms.office.com/pages/responsepage.aspx?id=v4j5cvGGr0GRqy180BHbR5zsR558741CrNi6q8iTpANURUhKMVA3WE4wMFhHRExTVlpET1BEMlZSTCQlQCN0PWcu&route=shorturl 
+and send a request.
